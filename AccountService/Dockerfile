@@ -1,0 +1,9 @@
+FROM openjdk:8-jdk-alpine
+#RUN apk add --no-cache bash
+VOLUME /tmp
+ARG JAR_FILE
+COPY ${JAR_FILE} app.jar
+#ADD target/accountservice-0.2.jar app.jar
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","app.jar"]
+#ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-Dspring.profiles.active=container","-jar","app.jar"]
+#RUN ${JAR_FILE} /bin/bash
