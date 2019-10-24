@@ -16,6 +16,7 @@ public class AccountQueryHandler {
 
     private final AccountCrudRepository repository;
 
+
     @Autowired
     public AccountQueryHandler(AccountCrudRepository repository) { this.repository = repository; }
 

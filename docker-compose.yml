@@ -1,5 +1,15 @@
 version: "3"
 services:
+  deckservice:
+    build:
+      context: DeckService/
+      dockerfile: Dockerfile
+    ports:
+      - 8081:8081
+    depends_on:
+      - mysql
+      - mongodbdeck
+      - kafka
   accountservice:
     build:
       context: AccountService/
@@ -8,7 +18,7 @@ services:
       - 8080:8080
     depends_on:
       - mysql
-      - mongodb
+      - mongodbacc
       - kafka
   mysql:
     image: mysql:5.7
@@ -18,7 +28,6 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: pass
       MYSQL_ROOT_PASSWORD: password
-#      MYSQL_ROOT_PASSWORD: 'pass'
     ports:
      - 3306:3306
     volumes:
@@ -33,16 +42,24 @@ services:
       KAFKA_ADVERTISED_HOST_NAME: localhost
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
-  mongodb:
+  mongodbacc:
     image: mongo:3.2.4
-    container_name: "mongodb"
+    container_name: "mongodbacc"
     ports:
       - 27017:27017
     command: --smallfiles
     volumes:
       - mdb-data:/data/db
       - mongo-config:/data/configdb
-
+  mongodbdeck:
+    image: mongo:3.2.4
+    container_name: "mongodbdeck"
+    ports:
+      - 27018:27018
+    command: --smallfiles
+    volumes:
+      - mdb-data:/data/db
+      - mongo-config:/data/configdb
 volumes:
   mysql:
   mdb-data:

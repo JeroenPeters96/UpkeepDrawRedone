@@ -63,6 +63,4 @@ public class AccountEventHandler {
         account.setUsername(event.getNewUsername());
         repository.save(account);
     }
-
-
 }
