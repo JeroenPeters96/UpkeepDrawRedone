@@ -60,9 +60,7 @@ public class AccountCommandController {
            savedAccount.getUsername().equals(apiModel.getUsername())&&
            savedAccount.getPassword().equals(apiModel.getPassword()))
                return new ResponseEntity<>("Registration succesfull", HttpStatus.OK);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
         return new ResponseEntity<>("Registration unsuccesfull",HttpStatus.NOT_FOUND);
@@ -70,7 +68,16 @@ public class AccountCommandController {
 
     @PostMapping("/delete")
     public void delete(@RequestBody DeleteApiModel apiModel) {
-      commandGateway.send(
+      Account account;
+        try {
+            account = queryGateway.query(new FindAccountById(apiModel.getAccountId()),Account.class).get();
+            if(account==null)
+                return;
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return;
+        }
+        commandGateway.send(
               new DeleteAccount(
                       apiModel.getAccountId()
               )
@@ -79,6 +86,7 @@ public class AccountCommandController {
 
     @PostMapping("/email")
     public void changeEmail(@RequestBody ChangeEmailApiModel apiModel) {
+
       commandGateway.send(
               new ChangeEmail(
                       apiModel.getAccountId(),

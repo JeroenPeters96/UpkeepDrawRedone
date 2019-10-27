@@ -9,6 +9,7 @@ import org.axonframework.spring.stereotype.Aggregate;
 import org.springframework.beans.factory.annotation.Autowired;
 import upd.accountservice.Commands.ChangeEmail;
 import upd.accountservice.Commands.CreateAccount;
+import upd.accountservice.Commands.DeleteAccount;
 import upd.accountservice.Events.AccountCreated;
 import upd.accountservice.Events.EmailChanged;
 
@@ -53,6 +54,11 @@ public class AccountAggregate {
         this.accountId = event.getAccountId();
     }
 
+
+    @CommandHandler
+    public AccountAggregate(DeleteAccount command) {
+
+    }
 
     protected AccountAggregate() {}
     

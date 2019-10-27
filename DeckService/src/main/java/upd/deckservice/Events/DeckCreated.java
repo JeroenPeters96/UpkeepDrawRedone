@@ -1,17 +1,17 @@
-package upd.deckservice.Commands;
+package upd.deckservice.Events;
 
 import org.axonframework.commandhandling.TargetAggregateIdentifier;
 
 import java.util.Objects;
 
-public class CreateDeck {
+public class DeckCreated {
     @TargetAggregateIdentifier
     private final String deckId;
     private final String accountId;
     private final String name;
     private final String description;
 
-    public CreateDeck(String deckId, String accountId, String name, String description) {
+    public DeckCreated(String deckId, String accountId, String name, String description) {
         this.deckId = deckId;
         this.accountId = accountId;
         this.name = name;
@@ -36,7 +36,7 @@ public class CreateDeck {
 
     @Override
     public String toString() {
-        return "CreateDeck{" +
+        return "DeckCreated{" +
                 "deckId='" + deckId + '\'' +
                 ", accountId='" + accountId + '\'' +
                 ", name='" + name + '\'' +
@@ -47,8 +47,8 @@ public class CreateDeck {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof CreateDeck)) return false;
-        CreateDeck that = (CreateDeck) o;
+        if (!(o instanceof DeckCreated)) return false;
+        DeckCreated that = (DeckCreated) o;
         return Objects.equals(deckId, that.deckId) &&
                 Objects.equals(accountId, that.accountId) &&
                 Objects.equals(name, that.name) &&

@@ -7,10 +7,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="accountservice" />
-        <module name="deckservice" />
-        <module name="cardservice" />
         <module name="AccountService" />
+        <module name="cardservice" />
         <module name="CardService" />
+        <module name="deckservice" />
       </profile>
     </annotationProcessing>
   </component>
