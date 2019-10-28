@@ -9,10 +9,7 @@ import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import upd.accountservice.Commands.*;
 import upd.accountservice.Controllers.IncomingModels.*;
 import upd.accountservice.Models.Account;
@@ -66,7 +63,7 @@ public class AccountCommandController {
         return new ResponseEntity<>("Registration unsuccesfull",HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public void delete(@RequestBody DeleteApiModel apiModel) {
       Account account;
         try {

@@ -1,18 +1,19 @@
 package upd.deckservice.Controllers.IncomingModels;
 
+import java.util.Map;
 import java.util.Objects;
 
 public class AddCardApiModel {
-    private final String cardId;
+    private final Map<String,Integer> cards;
     private final String deckId;
 
-    public AddCardApiModel(String cardId, String deckId) {
-        this.cardId = cardId;
+    public AddCardApiModel(Map<String,Integer> cardId, String deckId) {
+        this.cards = cardId;
         this.deckId = deckId;
     }
 
-    public String getCardId() {
-        return cardId;
+    public Map<String,Integer> getCards() {
+        return cards;
     }
 
     public String getDeckId() {
@@ -22,7 +23,7 @@ public class AddCardApiModel {
     @Override
     public String toString() {
         return "AddCardApiModel{" +
-                "cardId='" + cardId + '\'' +
+                "cards='" + cards + '\'' +
                 ", deckId='" + deckId + '\'' +
                 '}';
     }
@@ -32,12 +33,12 @@ public class AddCardApiModel {
         if (this == o) return true;
         if (!(o instanceof AddCardApiModel)) return false;
         AddCardApiModel that = (AddCardApiModel) o;
-        return Objects.equals(cardId, that.cardId) &&
+        return Objects.equals(cards, that.cards) &&
                 Objects.equals(deckId, that.deckId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(cardId, deckId);
+        return Objects.hash(cards, deckId);
     }
 }

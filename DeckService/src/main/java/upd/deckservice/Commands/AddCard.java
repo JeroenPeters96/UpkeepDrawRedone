@@ -2,31 +2,32 @@ package upd.deckservice.Commands;
 
 import org.axonframework.commandhandling.TargetAggregateIdentifier;
 
+import java.util.Map;
 import java.util.Objects;
 
 public class AddCard {
     @TargetAggregateIdentifier
     private final String deckId;
-    private final String cardId;
+    private final Map<String,Integer> cards;
 
-    public AddCard(String deckId, String cardId) {
+    public AddCard(String deckId, Map<String,Integer> cards) {
         this.deckId = deckId;
-        this.cardId = cardId;
+        this.cards = cards;
     }
 
     public String getDeckId() {
         return deckId;
     }
 
-    public String getCardId() {
-        return cardId;
+    public Map<String,Integer> getCards() {
+        return cards;
     }
 
     @Override
     public String toString() {
         return "AddCard{" +
                 "deckId='" + deckId + '\'' +
-                ", cardId='" + cardId + '\'' +
+                ", cards=" + cards +
                 '}';
     }
 
@@ -36,11 +37,11 @@ public class AddCard {
         if (!(o instanceof AddCard)) return false;
         AddCard addCard = (AddCard) o;
         return Objects.equals(deckId, addCard.deckId) &&
-                Objects.equals(cardId, addCard.cardId);
+                Objects.equals(cards, addCard.cards);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(deckId, cardId);
+        return Objects.hash(deckId, cards);
     }
 }

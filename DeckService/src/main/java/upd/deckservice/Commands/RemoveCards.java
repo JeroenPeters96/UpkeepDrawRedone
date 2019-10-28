@@ -3,14 +3,15 @@ package upd.deckservice.Commands;
 import org.axonframework.commandhandling.TargetAggregateIdentifier;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class RemoveCards {
     @TargetAggregateIdentifier
     private final String deckId;
-    private final List<String> cards;
+    private final Map<String,Integer> cards;
 
-    public RemoveCards(String deckId, List<String> cards) {
+    public RemoveCards(String deckId, Map<String,Integer> cards) {
         this.deckId = deckId;
         this.cards = cards;
     }
@@ -19,7 +20,7 @@ public class RemoveCards {
         return deckId;
     }
 
-    public List<String> getCards() {
+    public Map<String,Integer> getCards() {
         return cards;
     }
 
