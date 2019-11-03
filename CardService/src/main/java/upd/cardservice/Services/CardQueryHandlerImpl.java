@@ -5,12 +5,15 @@ import org.springframework.stereotype.Service;
 import upd.cardservice.Repo.CardCrudRepository;
 
 @Service
-public class CardQueryHandler {
+public class CardQueryHandlerImpl {
 
-    private final CardCrudRepository repository;
+    private CardCrudRepository repository;
 
     @Autowired
-    public CardQueryHandler(CardCrudRepository repository) {
+    public CardQueryHandlerImpl(CardCrudRepository repository) {
         this.repository = repository;
+    }
+
+    public CardQueryHandlerImpl() {
     }
 }

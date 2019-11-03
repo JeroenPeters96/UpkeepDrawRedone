@@ -6,6 +6,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.junit.jupiter.api.Test;
+import upd.cardservice.Models.Card;
+
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
@@ -25,6 +28,18 @@ class CardRepositoryIntergrationTest {
         assertNotNull(cardCrudRepository);
     }
 
-    
+    @Test
+    void whenFindById_ThenReturnCards() {
+        //given
+        Card card= new Card("12345");
+        entityManager.persist(card);
+        entityManager.flush();
 
+        //when
+        Card found = cardCrudRepository.findById("12345").get();
+
+        //then
+        assertThat(found)
+                .isEqualTo(card);
+    }
 }
