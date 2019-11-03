@@ -60,7 +60,56 @@ services:
     volumes:
       - mdb-data:/data/db
       - mongo-config:/data/configdb
+  mongodbcard:
+    image: mongo:3.2.4
+    container_name: "mongodbcard"
+    ports:
+      - 27018:27017
+    command: --smallfiles
+    volumes:
+      - mongocard-config:/data/db
+      - mongocarddata:/data/configdb
+  mysqlcard:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - 3308:3306
+    volumes:
+      - mysqlcard:/var/lib/mysql
+  mysqltest:
+   image: mysql:5.7
+   restart: always
+   environment:
+     MYSQL_DATABASE: db
+     MYSQL_USER: user
+     MYSQL_PASSWORD: pass
+     MYSQL_ROOT_PASSWORD: password
+   ports:
+     - 3310:3306
+   volumes:
+     - mysqltest:/var/lib/mysql
+
+  mongotest:
+    image: mongo:3.2.4
+    container_name: "testcontainer"
+    ports:
+      - 27020:27017
+    command: --smallfiles
+    volumes:
+      - mongotest-config:/data/db
+      - mongotestdata:/data/configdb
 volumes:
   mysql:
+  mysqlcard:
+  mysqltest:
   mdb-data:
   mongo-config:
+  mongocard-config:
+  mongocarddata:
+  mongotest-config:
+  mongotestdata:
