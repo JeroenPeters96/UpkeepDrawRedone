@@ -32,6 +32,18 @@ services:
      - 3306:3306
     volumes:
      - mysql:/var/lib/mysql
+  testmysql:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - 3306:3308
+    volumes:
+      - mysql:/var/lib/mysql
   zookeeper:
     image: wurstmeister/zookeeper
   kafka:
@@ -42,11 +54,28 @@ services:
       KAFKA_ADVERTISED_HOST_NAME: localhost
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+  testkafka:
+    image: wurstmeister/kafka
+    ports:
+      - 9092:9091
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: localhost
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
   mongodbacc:
+          image: mongo:3.2.4
+          container_name: "mongodbacc"
+          ports:
+            - 27017:27017
+          command: --smallfiles
+          volumes:
+            - mdb-data:/data/db
+            - mongo-config:/data/configdb
+  testmongodb:
     image: mongo:3.2.4
     container_name: "mongodbacc"
     ports:
-      - 27017:27017
+      - 27017:27019
     command: --smallfiles
     volumes:
       - mdb-data:/data/db
