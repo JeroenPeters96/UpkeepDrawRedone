@@ -12,6 +12,10 @@
         <module>AccountService</module>
         <module>DeckService</module>
         <module>CardService</module>
+        <module>McmService</module>
+        <module>EdhrecService</module>
+        <module>IntergrationTest</module>
+        <module>DiscoveryService</module>
     </modules>
 
 

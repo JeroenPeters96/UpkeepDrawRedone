@@ -22,30 +22,6 @@ import java.util.Map;
 @Configuration
 public class AMQConfig {
 
-//    @Value("${axon.amqp.exchange}")
-//    private String exchangeName;
-//
-//    @Bean
-//    public Exchange exchange() {
-//        return ExchangeBuilder.fanoutExchange(exchangeName).build();
-//    }
-//
-//    @Bean
-//    public Queue queue() {
-//        return QueueBuilder.durable("accountEvents").build();
-//    }
-//
-//    @Bean
-//    public Binding binding() {
-//        return BindingBuilder.bind(queue()).to(exchange()).with("*").noargs();
-//    }
-//
-//    @Autowired
-//    public void configure(AmqpAdmin admin) {
-//        admin.declareExchange(exchange());
-//        admin.declareQueue(queue());
-//        admin.declareBinding(binding());
-//    }
 
     @Autowired
     private KafkaProperties kafkaProperties;

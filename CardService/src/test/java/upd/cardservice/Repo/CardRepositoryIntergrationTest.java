@@ -1,4 +1,5 @@
 package upd.cardservice.Repo;
+
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -29,9 +30,26 @@ class CardRepositoryIntergrationTest {
     }
 
     @Test
-    void whenFindById_ThenReturnCards() {
+    void whenFindById_ThenReturnCard() {
         //given
-        Card card= new Card("12345");
+        Card card= new Card();
+        card.setId("12345");
+        entityManager.persist(card);
+        entityManager.flush();
+
+        //when
+        Card found = cardCrudRepository.findById("12345").get();
+
+        //then
+        assertThat(found)
+                .isEqualTo(card);
+    }
+
+    @Test
+    void whenFindById_ThenReturnNull() {
+        //given
+        Card card= new Card();
+        card.setId("123123");
         entityManager.persist(card);
         entityManager.flush();
 

@@ -8,16 +8,16 @@ import upd.cardservice.Models.Card;
 import upd.cardservice.Repo.CardCrudRepository;
 
 @Service
-public class CardEventHandlerImpl {
+public class CardEventHandler {
     @Autowired
     private CardCrudRepository repository;
 
     @Autowired
-    private CardEventHandlerImpl(final CardCrudRepository repository) {
+    private CardEventHandler(final CardCrudRepository repository) {
         this.repository = repository;
     }
 
-    public CardEventHandlerImpl() {
+    public CardEventHandler() {
     }
 
     @EventHandler

@@ -1,13 +1,14 @@
 version: "3"
 services:
+# Services build for the project
   deckservice:
     build:
       context: DeckService/
       dockerfile: Dockerfile
     ports:
-      - 8081:8081
+      - 8081:8080
     depends_on:
-      - mysql
+      - mysqldeck
       - mongodbdeck
       - kafka
   accountservice:
@@ -17,10 +18,42 @@ services:
     ports:
       - 8080:8080
     depends_on:
-      - mysql
+      - mysqlaccount
       - mongodbacc
       - kafka
-  mysql:
+  cardservice:
+    build:
+      context: CardService/
+      dockerfile: Dockerfile
+    ports:
+      - 8082:8080
+    depends_on:
+      - mysqlcard
+      - mongodbcard
+      - kafka
+  intergration:
+    build:
+      context: IntergrationTest/
+      dockerfile: Dockerfile
+    depends_on:
+      - testmysql
+      - testkafka
+      - testmongodb
+
+#Messaging queue to facilitate messages between services
+  zookeeper:
+    image: wurstmeister/zookeeper
+  kafka:
+    image: wurstmeister/kafka
+    ports:
+      - 9092:9092
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+
+#MySql databases used in the services
+  mysqlaccount:
     image: mysql:5.7
     restart: always
     environment:
@@ -31,45 +64,20 @@ services:
     ports:
      - 3306:3306
     volumes:
-     - mysql:/var/lib/mysql
-  zookeeper:
-    image: wurstmeister/zookeeper
-  kafka:
-    image: wurstmeister/kafka
-    ports:
-      - 9092:9092
-    environment:
-      KAFKA_ADVERTISED_HOST_NAME: localhost
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
-  mongodbacc:
-    image: mongo:3.2.4
-    container_name: "mongodbacc"
-    ports:
-      - 27017:27017
-    command: --smallfiles
-    volumes:
-      - mdb-data:/data/db
-      - mongo-config:/data/configdb
-  mongodbdeck:
-    image: mongo:3.2.4
-    container_name: "mongodbdeck"
-    ports:
-      - 27018:27018
-    command: --smallfiles
-    volumes:
-      - mdb-data:/data/db
-      - mongo-config:/data/configdb
-  mongodbcard:
-    image: mongo:3.2.4
-    container_name: "mongodbcard"
-    ports:
-      - 27018:27017
-    command: --smallfiles
-    volumes:
-      - mongocard-config:/data/db
-      - mongocarddata:/data/configdb
+     - mysqlacc:/var/lib/mysql
   mysqlcard:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - 3307:3306
+    volumes:
+      - mysqlcard:/var/lib/mysql
+  mysqldeck:
     image: mysql:5.7
     restart: always
     environment:
@@ -80,36 +88,83 @@ services:
     ports:
       - 3308:3306
     volumes:
-      - mysqlcard:/var/lib/mysql
-  mysqltest:
-   image: mysql:5.7
-   restart: always
-   environment:
-     MYSQL_DATABASE: db
-     MYSQL_USER: user
-     MYSQL_PASSWORD: pass
-     MYSQL_ROOT_PASSWORD: password
-   ports:
-     - 3310:3306
-   volumes:
-     - mysqltest:/var/lib/mysql
+      - mysqldeck:/var/lib/mysql
 
-  mongotest:
+#Mongo databaes used in the eventstore's of the different services
+  mongodbacc:
     image: mongo:3.2.4
-    container_name: "testcontainer"
+    container_name: "mongodbacc"
+    ports:
+      - 27017:27017
+    command: --smallfiles
+    volumes:
+      - mongodbaccdata:/data/db
+      - mongoacc-config:/data/configdb
+  mongodbdeck:
+    image: mongo:3.2.4
+    container_name: "mongodbdeck"
+    ports:
+      - 27018:27017
+    command: --smallfiles
+    volumes:
+      - mongodbdeckdata:/data/db
+      - mongodeck-config:/data/configdb
+  mongodbcard:
+    image: mongo:3.2.4
+    container_name: "mongodbcard"
+    ports:
+      - 27019:27017
+    command: --smallfiles
+    volumes:
+      - mongocard-config:/data/configdb
+      - mongocarddata:/data/db
+
+# Systems used in testing
+  testmysql:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - 3310:3306
+    volumes:
+      - mysqltest:/var/lib/mysql
+  testkafka:
+    image: wurstmeister/kafka
+    ports:
+      - 9099:9092
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: localhost
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+  testmongodb:
+    image: mongo:3.2.4
+    container_name: "testmongodb"
     ports:
       - 27020:27017
     command: --smallfiles
     volumes:
-      - mongotest-config:/data/db
-      - mongotestdata:/data/configdb
+      - mdbtest-data:/data/db
+      - mongotest-config:/data/configdb
 volumes:
-  mysql:
-  mysqlcard:
-  mysqltest:
   mdb-data:
   mongo-config:
+
+  mysql:
+  mysqlacc:
+  mysqlcard:
+  mysqldeck:
+
+  mongoacc-config:
+  mongodbaccdata:
+  mongodeck-config:
+  mongodbdeckdata:
   mongocard-config:
   mongocarddata:
+
+  mysqltest:
+  mdbtest-data:
   mongotest-config:
-  mongotestdata:
