@@ -129,7 +129,7 @@ services:
       MYSQL_PASSWORD: pass
       MYSQL_ROOT_PASSWORD: password
     ports:
-      - 3310:3306
+      - 3311:3306
     volumes:
       - mysqltest:/var/lib/mysql
   testkafka:
