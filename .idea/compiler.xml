@@ -8,9 +8,13 @@
         <outputRelativeToContentRoot value="true" />
         <module name="accountservice" />
         <module name="AccountService" />
-        <module name="cardservice" />
         <module name="CardService" />
+        <module name="cardservice" />
         <module name="deckservice" />
+        <module name="DiscoveryService" />
+        <module name="EdhrecService" />
+        <module name="IntergrationTest" />
+        <module name="McmService" />
       </profile>
     </annotationProcessing>
   </component>
@@ -18,6 +22,10 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="AccountService" options="-parameters" />
       <module name="CardService" options="-parameters" />
+      <module name="DiscoveryService" options="-parameters" />
+      <module name="EdhrecService" options="-parameters" />
+      <module name="IntergrationTest" options="-parameters" />
+      <module name="McmService" options="-parameters" />
       <module name="accountservice" options="-parameters" />
       <module name="cardservice" options="-parameters" />
       <module name="deckservice" options="-parameters" />

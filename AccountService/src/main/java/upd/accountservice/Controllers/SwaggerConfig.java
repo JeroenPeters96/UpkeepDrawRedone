@@ -27,10 +27,10 @@ public class SwaggerConfig {
 
     private ApiInfo getApiInfo() {
         return new ApiInfo(
-                "Upkeep Draw Account Service",
+                "Upkeep Draw Account upd.edhrecservice.Service",
                 "Account functionalities for the upkeepdraw project",
                 "0.1",
-                "Terms of Service",
+                "Terms of upd.edhrecservice.Service",
                 new Contact("Jeroen Peters", "", "Jeroen.peters1@hotmail.nl"),
                 "",
                 "",

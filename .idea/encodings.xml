@@ -5,5 +5,9 @@
     <file url="file://$PROJECT_DIR$/AccountService" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/CardService" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/DeckService" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/DiscoveryService" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/EdhrecService" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/IntergrationTest" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/McmService" charset="UTF-8" />
   </component>
 </project>
