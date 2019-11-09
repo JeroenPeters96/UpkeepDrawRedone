@@ -27,11 +27,11 @@ import java.util.concurrent.ExecutionException;
 
 public class AccountCommandController {
 
-  private final CommandGateway commandGateway;
-  private final QueryGateway queryGateway;
+    private final CommandGateway commandGateway;
+    private final QueryGateway queryGateway;
 
-  @Autowired
-    public AccountCommandController(final CommandGateway commandGateway, final QueryGateway queryGateway) {
+    @Autowired
+    public AccountCommandController(final CommandGateway commandGateway, @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection") final QueryGateway queryGateway) {
         this.commandGateway = commandGateway;
         this.queryGateway = queryGateway;
     }
@@ -39,8 +39,10 @@ public class AccountCommandController {
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterApiModel apiModel) {
         String accountId = UUID.randomUUID().toString();
+        String id = UUID.randomUUID().toString();
         commandGateway.send(
                 new CreateAccount(
+                        id,
                         accountId,
                         apiModel.getEmail(),
                         apiModel.getPassword(),
@@ -52,50 +54,55 @@ public class AccountCommandController {
 
         try {
             savedAccount = queryGateway.query(new FindAccountById(accountId), Account.class).get();
-           if(savedAccount.getId().equals(accountId)&&
-           savedAccount.getEmail().equals(apiModel.getEmail())&&
-           savedAccount.getUsername().equals(apiModel.getUsername())&&
-           savedAccount.getPassword().equals(apiModel.getPassword()))
-               return new ResponseEntity<>("Registration succesfull", HttpStatus.OK);
+            if (savedAccount.getId().equals(accountId) &&
+                    savedAccount.getEmail().equals(apiModel.getEmail()) &&
+                    savedAccount.getUsername().equals(apiModel.getUsername()) &&
+                    savedAccount.getPassword().equals(apiModel.getPassword()))
+                return new ResponseEntity<>("Registration succesfull", HttpStatus.OK);
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-        return new ResponseEntity<>("Registration unsuccesfull",HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("Registration unsuccesfull", HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/delete")
     public void delete(@RequestBody DeleteApiModel apiModel) {
-      Account account;
+        String id = UUID.randomUUID().toString();
+        Account account;
         try {
-            account = queryGateway.query(new FindAccountById(apiModel.getAccountId()),Account.class).get();
-            if(account==null)
+            account = queryGateway.query(new FindAccountById(apiModel.getAccountId()), Account.class).get();
+            if (account == null)
                 return;
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
             return;
         }
         commandGateway.send(
-              new DeleteAccount(
-                      apiModel.getAccountId()
-              )
-      );
+                new DeleteAccount(
+                        id,
+                        apiModel.getAccountId()
+                )
+        );
     }
 
     @PostMapping("/email")
     public void changeEmail(@RequestBody ChangeEmailApiModel apiModel) {
-
-      commandGateway.send(
-              new ChangeEmail(
-                      apiModel.getAccountId(),
-                      apiModel.getNewEmail()
-              )
-      );
+        String id = UUID.randomUUID().toString();
+        commandGateway.send(
+                new ChangeEmail(
+                        id,
+                        apiModel.getAccountId(),
+                        apiModel.getNewEmail()
+                )
+        );
     }
 
     @PostMapping("/username")
     public void changeUsername(@RequestBody ChangeUsernameApiModel apiModel) {
+        String id = UUID.randomUUID().toString();
         commandGateway.send(
                 new ChangeUsername(
+                        id,
                         apiModel.getAccountId(),
                         apiModel.getUsername()
                 )
@@ -104,11 +111,13 @@ public class AccountCommandController {
 
     @PostMapping("/password")
     public void changePassword(@RequestBody ChangePasswordApiModel apiModel) {
-      commandGateway.send(
-              new ChangePassword(
-                      apiModel.getAccountId(),
-                      apiModel.getPassword()
-              )
-      );
+        String id = UUID.randomUUID().toString();
+        commandGateway.send(
+                new ChangePassword(
+                        id,
+                        apiModel.getAccountId(),
+                        apiModel.getPassword()
+                )
+        );
     }
 }

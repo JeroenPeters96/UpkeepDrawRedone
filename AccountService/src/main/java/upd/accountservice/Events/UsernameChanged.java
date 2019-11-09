@@ -5,13 +5,20 @@ import org.axonframework.commandhandling.TargetAggregateIdentifier;
 import java.util.Objects;
 
 public class UsernameChanged  {
+
     @TargetAggregateIdentifier
+    private final String id;
     private final String accountId;
     private final String newUsername;
 
-    public UsernameChanged(String accountId, String newUsername) {
+    public UsernameChanged(String id, String accountId, String newUsername) {
+        this.id = id;
         this.accountId = accountId;
         this.newUsername = newUsername;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getAccountId() {
@@ -25,7 +32,8 @@ public class UsernameChanged  {
     @Override
     public String toString() {
         return "UsernameChanged{" +
-                "accountId='" + accountId + '\'' +
+                "id='" + id + '\'' +
+                ", accountId='" + accountId + '\'' +
                 ", newUsername='" + newUsername + '\'' +
                 '}';
     }
@@ -33,14 +41,15 @@ public class UsernameChanged  {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof UsernameChanged)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         UsernameChanged that = (UsernameChanged) o;
-        return Objects.equals(accountId, that.accountId) &&
-                Objects.equals(newUsername, that.newUsername);
+        return Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getAccountId(), that.getAccountId()) &&
+                Objects.equals(getNewUsername(), that.getNewUsername());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(accountId, newUsername);
+        return Objects.hash(getId(), getAccountId(), getNewUsername());
     }
 }

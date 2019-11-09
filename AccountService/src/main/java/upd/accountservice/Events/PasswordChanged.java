@@ -5,13 +5,20 @@ import org.axonframework.commandhandling.TargetAggregateIdentifier;
 import java.util.Objects;
 
 public class PasswordChanged {
+
     @TargetAggregateIdentifier
+    private final String id;
     private final String accountId;
     private final String newPassword;
 
-    public PasswordChanged(String accountId, String newPassword) {
+    public PasswordChanged(String id, String accountId, String newPassword) {
+        this.id = id;
         this.accountId = accountId;
         this.newPassword = newPassword;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getAccountId() {
@@ -25,7 +32,8 @@ public class PasswordChanged {
     @Override
     public String toString() {
         return "PasswordChanged{" +
-                "accountId='" + accountId + '\'' +
+                "id='" + id + '\'' +
+                ", accountId='" + accountId + '\'' +
                 ", newPassword='" + newPassword + '\'' +
                 '}';
     }
@@ -33,14 +41,15 @@ public class PasswordChanged {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof PasswordChanged)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         PasswordChanged that = (PasswordChanged) o;
-        return Objects.equals(accountId, that.accountId) &&
-                Objects.equals(newPassword, that.newPassword);
+        return Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getAccountId(), that.getAccountId()) &&
+                Objects.equals(getNewPassword(), that.getNewPassword());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(accountId, newPassword);
+        return Objects.hash(getId(), getAccountId(), getNewPassword());
     }
 }

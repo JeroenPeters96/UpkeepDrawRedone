@@ -8,5 +8,4 @@ import java.util.List;
 public interface AccountCrudRepository extends CrudRepository<Account,String> {
 
     List<Account> findAccountByEmail(String email);
-
 }

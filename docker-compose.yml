@@ -11,16 +11,16 @@ services:
       - mysqldeck
       - mongodbdeck
       - kafka
-#  accountservice:
-#    build:
-#      context: AccountService/
-#      dockerfile: Dockerfile
-#    ports:
-#      - 8080:8080
-#    depends_on:
-#      - mysqlaccount
-#      - mongodbacc
-#      - kafka
+  accountservice:
+    build:
+      context: AccountService/
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    depends_on:
+      - mysqlaccount
+      - mongodbacc
+      - kafka
 #  cardservice:
 #    build:
 #      context: CardService/
@@ -51,7 +51,8 @@ services:
       KAFKA_ADVERTISED_HOST_NAME: kafka
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
-
+    depends_on:
+      - zookeeper
 #MySql databases used in the services
   mysqlaccount:
     image: mysql:5.7
@@ -129,7 +130,7 @@ services:
       MYSQL_PASSWORD: pass
       MYSQL_ROOT_PASSWORD: password
     ports:
-      - 3311:3306
+      - 3312:3306
     volumes:
       - mysqltest:/var/lib/mysql
   testkafka:

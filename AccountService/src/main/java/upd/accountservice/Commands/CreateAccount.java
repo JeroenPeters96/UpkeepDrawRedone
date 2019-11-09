@@ -7,16 +7,26 @@ import java.util.Objects;
 public class CreateAccount  {
 
     @TargetAggregateIdentifier
+    private final String id;
     private final String accountId;
     private final String email;
     private final String password;
     private final String username;
 
-    public CreateAccount(String accountId, String email, String password, String username) {
-       this.accountId = accountId;
+    public CreateAccount(String id, String accountId, String email, String password, String username) {
+        this.id = id;
+        this.accountId = accountId;
         this.email = email;
         this.password = password;
         this.username = username;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getAccountId() {
+        return accountId;
     }
 
     public String getEmail() {
@@ -31,14 +41,11 @@ public class CreateAccount  {
         return username;
     }
 
-    public String getAccountId() {
-        return accountId;
-    }
-
     @Override
     public String toString() {
         return "CreateAccount{" +
-                "accountId='" + accountId + '\'' +
+                "id='" + id + '\'' +
+                ", accountId='" + accountId + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", username='" + username + '\'' +
@@ -48,16 +55,17 @@ public class CreateAccount  {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof CreateAccount)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         CreateAccount that = (CreateAccount) o;
-        return Objects.equals(accountId, that.accountId) &&
-                Objects.equals(email, that.email) &&
-                Objects.equals(password, that.password) &&
-                Objects.equals(username, that.username);
+        return Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getAccountId(), that.getAccountId()) &&
+                Objects.equals(getEmail(), that.getEmail()) &&
+                Objects.equals(getPassword(), that.getPassword()) &&
+                Objects.equals(getUsername(), that.getUsername());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(accountId, email, password, username);
+        return Objects.hash(getId(), getAccountId(), getEmail(), getPassword(), getUsername());
     }
 }

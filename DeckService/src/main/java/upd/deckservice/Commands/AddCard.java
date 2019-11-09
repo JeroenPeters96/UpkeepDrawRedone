@@ -1,6 +1,7 @@
 package upd.deckservice.Commands;
 
 import org.axonframework.commandhandling.TargetAggregateIdentifier;
+import upd.deckservice.Models.Card;
 
 import java.util.Map;
 import java.util.Objects;
@@ -8,9 +9,9 @@ import java.util.Objects;
 public class AddCard {
     @TargetAggregateIdentifier
     private final String deckId;
-    private final Map<String,Integer> cards;
+    private final Map<Card,Integer> cards;
 
-    public AddCard(String deckId, Map<String,Integer> cards) {
+    public AddCard(String deckId, Map<Card,Integer> cards) {
         this.deckId = deckId;
         this.cards = cards;
     }
@@ -19,7 +20,7 @@ public class AddCard {
         return deckId;
     }
 
-    public Map<String,Integer> getCards() {
+    public Map<Card,Integer> getCards() {
         return cards;
     }
 

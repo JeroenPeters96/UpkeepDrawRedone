@@ -1,14 +1,16 @@
 package upd.deckservice.Controllers.IncomingModels;
 
+import upd.deckservice.Models.Card;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 public class RemoveCardsApiModel {
     private final String deckId;
-    private final Map<String,Integer> cards;
+    private final Map<Card,Integer> cards;
 
-    public RemoveCardsApiModel(String deckId, Map<String,Integer> cards) {
+    public RemoveCardsApiModel(String deckId, Map<Card,Integer> cards) {
         this.deckId = deckId;
         this.cards = cards;
     }
@@ -17,7 +19,7 @@ public class RemoveCardsApiModel {
         return deckId;
     }
 
-    public Map<String,Integer> getCards() {
+    public Map<Card,Integer> getCards() {
         return cards;
     }
 

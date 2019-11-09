@@ -45,7 +45,9 @@ public class DeckQueryController {
     @GetMapping("/user")
     public ResponseEntity<List<Deck>> getDecksByUser(@RequestBody String id) {
         try {
-            List<Deck> foundDecks = queryGateway.query(getDecksByUser(id),List.class).get();
+            List found = queryGateway.query(getDecksByUser(id),List.class).get();
+            List<Deck> foundDecks = found;
+
             if(foundDecks!=null && foundDecks.size() != 0) {
                 return new ResponseEntity<>(foundDecks,HttpStatus.OK);
             }

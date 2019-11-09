@@ -22,7 +22,7 @@ public class AccountQueryController {
     private final QueryGateway queryGateway;
 
     @Autowired
-    public AccountQueryController(final QueryGateway queryGateway) {
+    public AccountQueryController(@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection") final QueryGateway queryGateway) {
         this.queryGateway = queryGateway;
     }
 

@@ -22,7 +22,7 @@ public class AccountAggregate {
     private EventSourcingRepository<AccountAggregate> repo;
 
     @AggregateIdentifier
-    private String accountId;
+    private String id;
 
     @CommandHandler
     public AccountAggregate(CreateAccount command) {
@@ -31,12 +31,19 @@ public class AccountAggregate {
         if(!emailPattern.matcher(command.getEmail()).matches()){
          throw new IllegalStateException("Not a valid email.");
         }
-        AggregateLifecycle.apply(new AccountCreated(command.getAccountId(),command.getEmail(),command.getPassword(),command.getUsername()));
+        AggregateLifecycle.apply(
+                new AccountCreated(
+                command.getId(),
+                command.getAccountId(),
+                command.getEmail(),
+                command.getPassword(),
+                command.getUsername()
+                ));
     }
 
     @EventSourcingHandler
     public void on(AccountCreated event) {
-        this.accountId = event.getAccountId();
+        this.id = event.getId();
     }
 
     @CommandHandler
@@ -46,12 +53,17 @@ public class AccountAggregate {
         if(!emailPattern.matcher(command.getEmail()).matches()){
             throw new IllegalStateException("Not a valid email.");
         }
-        AggregateLifecycle.apply(new EmailChanged(command.getAccountId(),command.getEmail()));
+        AggregateLifecycle.apply(
+                new EmailChanged(
+                        command.getId(),
+                        command.getAccountId(),
+                        command.getEmail()
+                ));
     }
 
     @EventSourcingHandler
     public void on(EmailChanged event) {
-        this.accountId = event.getAccountId();
+        this.id = event.getId();
     }
 
 

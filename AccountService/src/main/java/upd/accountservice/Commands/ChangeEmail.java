@@ -6,26 +6,33 @@ import java.util.Objects;
 
 public class ChangeEmail  {
     @TargetAggregateIdentifier
+    private final String id;
     private final String accountId;
     private final String email;
 
-    public ChangeEmail(String accountId, String email) {
+    public ChangeEmail(String id, String accountId, String email) {
+        this.id = id;
         this.accountId = accountId;
         this.email = email;
     }
 
-    public String getEmail() {
-        return email;
+    public String getId() {
+        return id;
     }
 
     public String getAccountId() {
         return accountId;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     @Override
     public String toString() {
         return "ChangeEmail{" +
-                "accountId='" + accountId + '\'' +
+                "id='" + id + '\'' +
+                ", accountId='" + accountId + '\'' +
                 ", email='" + email + '\'' +
                 '}';
     }
@@ -33,14 +40,15 @@ public class ChangeEmail  {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ChangeEmail)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         ChangeEmail that = (ChangeEmail) o;
-        return Objects.equals(email, that.email) &&
-                Objects.equals(accountId, that.accountId);
+        return Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getAccountId(), that.getAccountId()) &&
+                Objects.equals(getEmail(), that.getEmail());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(email, accountId);
+        return Objects.hash(getId(), getAccountId(), getEmail());
     }
 }

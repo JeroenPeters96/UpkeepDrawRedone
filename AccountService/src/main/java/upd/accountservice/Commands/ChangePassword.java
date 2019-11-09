@@ -6,26 +6,33 @@ import java.util.Objects;
 
 public class ChangePassword {
     @TargetAggregateIdentifier
+    private final String id;
     private final String accountId;
     private final String newPassword;
 
-    public ChangePassword(String accountId, String newPassword) {
+    public ChangePassword(String id, String accountId, String newPassword) {
+        this.id = id;
         this.accountId = accountId;
         this.newPassword = newPassword;
     }
 
-    public String getNewPassword() {
-        return newPassword;
+    public String getId() {
+        return id;
     }
 
     public String getAccountId() {
         return accountId;
     }
 
+    public String getNewPassword() {
+        return newPassword;
+    }
+
     @Override
     public String toString() {
         return "ChangePassword{" +
-                "accountId='" + accountId + '\'' +
+                "id='" + id + '\'' +
+                ", accountId='" + accountId + '\'' +
                 ", newPassword='" + newPassword + '\'' +
                 '}';
     }
@@ -33,14 +40,15 @@ public class ChangePassword {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ChangePassword)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         ChangePassword that = (ChangePassword) o;
-        return Objects.equals(accountId, that.accountId) &&
-                Objects.equals(newPassword, that.newPassword);
+        return Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getAccountId(), that.getAccountId()) &&
+                Objects.equals(getNewPassword(), that.getNewPassword());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(accountId, newPassword);
+        return Objects.hash(getId(), getAccountId(), getNewPassword());
     }
 }

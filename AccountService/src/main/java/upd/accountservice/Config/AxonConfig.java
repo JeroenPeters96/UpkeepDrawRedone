@@ -12,7 +12,6 @@ public class AxonConfig {
 
     @Bean
     EventSourcingRepository<AccountAggregate> accountAggregateEventSourcingRepository(EventStore eventStore) {
-//        EventSourcingRepository<AccountAggregate> repository = EventSourcingRepository.builder(AccountAggregate.class).eventStore(eventStore).build();
         EventSourcingRepository<AccountAggregate> repository = new EventSourcingRepository<>(AccountAggregate.class, eventStore);
         return repository;
     }

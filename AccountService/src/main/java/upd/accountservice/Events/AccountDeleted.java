@@ -7,10 +7,16 @@ import java.util.Objects;
 public class AccountDeleted {
 
     @TargetAggregateIdentifier
-    private String accountId;
+    private final String id;
+    private final String accountId;
 
-    public AccountDeleted(String accountId) {
+    public AccountDeleted(String id, String accountId) {
+        this.id = id;
         this.accountId = accountId;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getAccountId() {
@@ -20,20 +26,22 @@ public class AccountDeleted {
     @Override
     public String toString() {
         return "AccountDeleted{" +
-                "accountId='" + accountId + '\'' +
+                "id='" + id + '\'' +
+                ", accountId='" + accountId + '\'' +
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof AccountDeleted)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         AccountDeleted that = (AccountDeleted) o;
-        return Objects.equals(accountId, that.accountId);
+        return Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getAccountId(), that.getAccountId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(accountId);
+        return Objects.hash(getId(), getAccountId());
     }
 }

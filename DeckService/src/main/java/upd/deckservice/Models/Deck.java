@@ -26,15 +26,15 @@ public class Deck implements Serializable {
     @Column(name = "description")
     private String description;
 
-    @ManyToMany
-    @JoinTable(
-            name = "cards_in_deck",
-            joinColumns = @JoinColumn(name = "deckId"),
-            inverseJoinColumns = @JoinColumn(name = "cardId")
-    )
-    private Map<Card,Integer> cards = new HashMap<>();
 
-    public Deck(String id, String accountId, String deckname, String description, Map<Card, Integer> cards) {
+    @ElementCollection
+    @CollectionTable(name = "cardsindeck",
+            joinColumns = @JoinColumn(name = "count"))
+    @MapKeyJoinColumn(name = "cartId")
+    @Column(name = "cardsindeck")
+    private Map<Card,String> cards = new HashMap<>();
+
+    public Deck(String id, String accountId, String deckname, String description, Map<Card, String> cards) {
         this.id = id;
         this.accountId = accountId;
         this.deckname = deckname;
@@ -62,7 +62,7 @@ public class Deck implements Serializable {
         this.accountId = event.getAccountId();
         this.deckname = event.getName();
         this.description = event.getDescription();
-        this.cards = event.getCards();
+        //this.cards = event.getCards();
     }
 
     public Deck() {
@@ -100,11 +100,11 @@ public class Deck implements Serializable {
         this.description = description;
     }
 
-    public Map<Card, Integer> getCards() {
+    public Map<Card, String> getCards() {
         return cards;
     }
 
-    public void setCards(Map<Card, Integer> cards) {
+    public void setCards(Map<Card, String> cards) {
         this.cards = cards;
     }
 
