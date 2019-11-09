@@ -20,8 +20,6 @@ import java.util.Map;
 
 @Configuration
 public class AMQConfig {
-
-
     @Autowired
     private KafkaProperties kafkaProperties;
 

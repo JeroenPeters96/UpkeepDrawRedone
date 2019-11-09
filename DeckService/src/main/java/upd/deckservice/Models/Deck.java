@@ -1,6 +1,7 @@
 package upd.deckservice.Models;
 
 import upd.deckservice.Events.DeckCreated;
+import upd.deckservice.Events.DeckCreatedWithCards;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -22,6 +23,9 @@ public class Deck implements Serializable {
     @Column(name = "deckname",nullable = false)
     private String deckname;
 
+    @Column(name = "description")
+    private String description;
+
     @ManyToMany
     @JoinTable(
             name = "cards_in_deck",
@@ -30,18 +34,35 @@ public class Deck implements Serializable {
     )
     private Map<Card,Integer> cards = new HashMap<>();
 
-    public Deck(String id, String accountId, String deckname, Map<Card, Integer> cards) {
+    public Deck(String id, String accountId, String deckname, String description, Map<Card, Integer> cards) {
         this.id = id;
         this.accountId = accountId;
         this.deckname = deckname;
+        this.description = description;
         this.cards = cards;
     }
 
+    public Deck(String id, String accountId, String deckname, String description) {
+        this.id = id;
+        this.accountId = accountId;
+        this.deckname = deckname;
+        this.description = description;
+    }
+
     public Deck(DeckCreated event) {
+     this.id = event.getDeckId();
+     this.accountId = event.getAccountId();
+     this.deckname = event.getName();
+     this.description = event.getDescription();
+     this.cards = new HashMap<>();
+    }
+
+    public Deck(DeckCreatedWithCards event) {
         this.id = event.getDeckId();
         this.accountId = event.getAccountId();
         this.deckname = event.getName();
-        this.cards = event.get
+        this.description = event.getDescription();
+        this.cards = event.getCards();
     }
 
     public Deck() {
@@ -71,6 +92,14 @@ public class Deck implements Serializable {
         this.deckname = deckname;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public Map<Card, Integer> getCards() {
         return cards;
     }
@@ -85,6 +114,7 @@ public class Deck implements Serializable {
                 "id='" + id + '\'' +
                 ", accountId='" + accountId + '\'' +
                 ", deckname='" + deckname + '\'' +
+                ", description='" + description + '\'' +
                 ", cards=" + cards +
                 '}';
     }
@@ -97,11 +127,12 @@ public class Deck implements Serializable {
         return Objects.equals(id, deck.id) &&
                 Objects.equals(accountId, deck.accountId) &&
                 Objects.equals(deckname, deck.deckname) &&
+                Objects.equals(description, deck.description) &&
                 Objects.equals(cards, deck.cards);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, accountId, deckname, cards);
+        return Objects.hash(id, accountId, deckname, description, cards);
     }
 }
