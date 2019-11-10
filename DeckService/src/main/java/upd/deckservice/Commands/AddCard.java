@@ -7,27 +7,35 @@ import java.util.Map;
 import java.util.Objects;
 
 public class AddCard {
+
     @TargetAggregateIdentifier
+    private final String id;
     private final String deckId;
     private final Map<Card,Integer> cards;
 
-    public AddCard(String deckId, Map<Card,Integer> cards) {
+    public AddCard(String id, String deckId, Map<Card, Integer> cards) {
+        this.id = id;
         this.deckId = deckId;
         this.cards = cards;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getDeckId() {
         return deckId;
     }
 
-    public Map<Card,Integer> getCards() {
+    public Map<Card, Integer> getCards() {
         return cards;
     }
 
     @Override
     public String toString() {
         return "AddCard{" +
-                "deckId='" + deckId + '\'' +
+                "id='" + id + '\'' +
+                ", deckId='" + deckId + '\'' +
                 ", cards=" + cards +
                 '}';
     }
@@ -37,12 +45,13 @@ public class AddCard {
         if (this == o) return true;
         if (!(o instanceof AddCard)) return false;
         AddCard addCard = (AddCard) o;
-        return Objects.equals(deckId, addCard.deckId) &&
+        return Objects.equals(id, addCard.id) &&
+                Objects.equals(deckId, addCard.deckId) &&
                 Objects.equals(cards, addCard.cards);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(deckId, cards);
+        return Objects.hash(id, deckId, cards);
     }
 }

@@ -7,19 +7,26 @@ import java.util.Map;
 import java.util.Objects;
 
 public class CreateDeckWithCards {
+
     @TargetAggregateIdentifier
+    private final String id;
     private final String deckId;
     private final String accountId;
     private final String name;
     private final String description;
     private final Map<Card,Integer> cards;
 
-    public CreateDeckWithCards(String deckId, String accountId, String name, String description, Map<Card, Integer> cards) {
+    public CreateDeckWithCards(String id, String deckId, String accountId, String name, String description, Map<Card, Integer> cards) {
+        this.id = id;
         this.deckId = deckId;
         this.accountId = accountId;
         this.name = name;
         this.description = description;
         this.cards = cards;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getDeckId() {
@@ -45,7 +52,8 @@ public class CreateDeckWithCards {
     @Override
     public String toString() {
         return "CreateDeckWithCards{" +
-                "deckId='" + deckId + '\'' +
+                "id='" + id + '\'' +
+                ", deckId='" + deckId + '\'' +
                 ", accountId='" + accountId + '\'' +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
@@ -58,7 +66,8 @@ public class CreateDeckWithCards {
         if (this == o) return true;
         if (!(o instanceof CreateDeckWithCards)) return false;
         CreateDeckWithCards that = (CreateDeckWithCards) o;
-        return Objects.equals(deckId, that.deckId) &&
+        return Objects.equals(id, that.id) &&
+                Objects.equals(deckId, that.deckId) &&
                 Objects.equals(accountId, that.accountId) &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(description, that.description) &&
@@ -67,6 +76,6 @@ public class CreateDeckWithCards {
 
     @Override
     public int hashCode() {
-        return Objects.hash(deckId, accountId, name, description, cards);
+        return Objects.hash(id, deckId, accountId, name, description, cards);
     }
 }
