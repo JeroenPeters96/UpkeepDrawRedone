@@ -29,15 +29,17 @@ public class DeckCommandController {
     private final QueryGateway queryGateway;
 
     @Autowired
-    public DeckCommandController(final CommandGateway commandGateway, final QueryGateway queryGateway) {
+    public DeckCommandController(final CommandGateway commandGateway, @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection") final QueryGateway queryGateway) {
         this.commandGateway = commandGateway;
         this.queryGateway = queryGateway;
     }
 
     @PostMapping("/create")
     public ResponseEntity<String> createDeck(@RequestBody CreateDeckApiModel apiModel) {
+        String id = UUID.randomUUID().toString();
         String deckId = UUID.randomUUID().toString();
         commandGateway.send(new CreateDeck(
+                id,
                 deckId,
                 apiModel.getAccountId(),
                 apiModel.getName(),
@@ -64,8 +66,10 @@ public class DeckCommandController {
 
     @PostMapping("/createCards")
     public ResponseEntity<String> createWithCards(@RequestBody CreateDeckWithCardsApiModel apiModel) {
+        String id = UUID.randomUUID().toString();
         String deckId = UUID.randomUUID().toString();
         commandGateway.send(new CreateDeckWithCards(
+                id,
                 deckId,
                 apiModel.getAccountId(),
                 apiModel.getName(),
@@ -91,6 +95,7 @@ public class DeckCommandController {
 
     @PostMapping
     public ResponseEntity<String> addCardsToDeck(@RequestBody AddCardApiModel apiModel) {
+        String id = UUID.randomUUID().toString();
         Deck savedDeck;
 
         try {
@@ -104,6 +109,7 @@ public class DeckCommandController {
         }
 
         commandGateway.send(new AddCard(
+                id,
                 apiModel.getDeckId(),
                 apiModel.getCards()
         ));
@@ -124,6 +130,7 @@ public class DeckCommandController {
 
     @DeleteMapping("/delete")
     public ResponseEntity<String> delete(@RequestBody DeleteDeckApiModel apiModel) {
+        String id = UUID.randomUUID().toString();
         Deck savedDeck;
 
         try {
@@ -136,7 +143,7 @@ public class DeckCommandController {
             return new ResponseEntity<>("Deleting Deck was unsucessful", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        commandGateway.send(new DeleteDeck(apiModel.getDeckId()));
+        commandGateway.send(new DeleteDeck(id,apiModel.getDeckId()));
         try {
             savedDeck = queryGateway.query(new FindDeckById(apiModel.getDeckId()), Deck.class).get();
             if (savedDeck != null) {
@@ -151,6 +158,7 @@ public class DeckCommandController {
 
     @PostMapping("/removeCards")
     public ResponseEntity<String> removeCards(@RequestBody RemoveCardsApiModel apiModel) {
+        String id = UUID.randomUUID().toString();
         Deck savedDeck;
 
         try {
@@ -163,12 +171,13 @@ public class DeckCommandController {
             return new ResponseEntity<>("Removing cards was unsucessful", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        commandGateway.send(new RemoveCards(apiModel.getDeckId(), apiModel.getCards()));
+        commandGateway.send(new RemoveCards(id,apiModel.getDeckId(), apiModel.getCards()));
         return new ResponseEntity<>("Removing cards was succesfull", HttpStatus.OK);
     }
 
     @PostMapping("/renameDeck")
     public ResponseEntity<String> renameDeck(@RequestBody RenameDeck apiModel) {
+        String id = UUID.randomUUID().toString();
         Deck savedDeck;
 
         try {
@@ -181,7 +190,7 @@ public class DeckCommandController {
             return new ResponseEntity<>("Renaming deck was unsucessful", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        commandGateway.send(new RenameDeck(apiModel.getDeckId(), apiModel.getNewDeckName()));
+        commandGateway.send(new RenameDeck(id,apiModel.getDeckId(), apiModel.getNewDeckName()));
         return new ResponseEntity<>("Renaming deck was succesfull", HttpStatus.OK);
     }
 

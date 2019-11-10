@@ -9,18 +9,24 @@ import java.util.Objects;
 
 public class DeckCreatedWithCards {
     @TargetAggregateIdentifier
+    private final String id;
     private final String deckId;
     private final String accountId;
     private final String name;
     private final String description;
     private final Map<Card, Integer> cards;
 
-    public DeckCreatedWithCards(String deckId, String accountId, String name, String description, Map<Card, Integer> cards) {
+    public DeckCreatedWithCards(String id, String deckId, String accountId, String name, String description, Map<Card, Integer> cards) {
+        this.id = id;
         this.deckId = deckId;
         this.accountId = accountId;
         this.name = name;
         this.description = description;
         this.cards = cards;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getDeckId() {
@@ -45,8 +51,9 @@ public class DeckCreatedWithCards {
 
     @Override
     public String toString() {
-        return "CreateDeckWithCards{" +
-                "deckId='" + deckId + '\'' +
+        return "DeckCreatedWithCards{" +
+                "id='" + id + '\'' +
+                ", deckId='" + deckId + '\'' +
                 ", accountId='" + accountId + '\'' +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
@@ -57,17 +64,18 @@ public class DeckCreatedWithCards {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof DeckCreatedWithCards)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         DeckCreatedWithCards that = (DeckCreatedWithCards) o;
-        return Objects.equals(deckId, that.deckId) &&
-                Objects.equals(accountId, that.accountId) &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(description, that.description) &&
-                Objects.equals(cards, that.cards);
+        return Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getDeckId(), that.getDeckId()) &&
+                Objects.equals(getAccountId(), that.getAccountId()) &&
+                Objects.equals(getName(), that.getName()) &&
+                Objects.equals(getDescription(), that.getDescription()) &&
+                Objects.equals(getCards(), that.getCards());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(deckId, accountId, name, description, cards);
+        return Objects.hash(getId(), getDeckId(), getAccountId(), getName(), getDescription(), getCards());
     }
 }

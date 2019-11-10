@@ -17,7 +17,7 @@ public class DeckAggregate {
     private EventSourcingRepository<DeckAggregate> repo;
 
     @AggregateIdentifier
-    private String deckId;
+    private String id;
 
     @CommandHandler
     public DeckAggregate(CreateDeck command) {
@@ -25,6 +25,7 @@ public class DeckAggregate {
 
         AggregateLifecycle.apply(
                 new DeckCreated(
+                        command.getId(),
                         command.getDeckId(),
                         command.getAccountId(),
                         command.getName(),
@@ -35,14 +36,37 @@ public class DeckAggregate {
 
     @EventSourcingHandler
     public void on(DeckCreated event) {
-        this.deckId = event.getDeckId();
+        this.id = event.getId();
     }
+
+    @CommandHandler
+    public DeckAggregate(CreateDeckWithCards command) {
+        //TODO find accountId to check
+
+        AggregateLifecycle.apply(
+                new DeckCreatedWithCards(
+                        command.getId(),
+                        command.getDeckId(),
+                        command.getAccountId(),
+                        command.getName(),
+                        command.getDescription(),
+                        command.getCards()
+                )
+        );
+    }
+
+    @EventSourcingHandler
+    public void on(DeckCreatedWithCards event) {
+        this.id = event.getId();
+    }
+
 
     @CommandHandler
     public DeckAggregate(DeleteDeck command) {
 
         AggregateLifecycle.apply(
                 new DeckDeleted(
+                        command.getId(),
                         command.getDeckId()
                 )
         );
@@ -50,7 +74,7 @@ public class DeckAggregate {
 
     @EventSourcingHandler
     public void on(DeckDeleted event) {
-        this.deckId = event.getDeckId();
+        this.id = event.getDeckId();
     }
 
     @CommandHandler
@@ -58,6 +82,7 @@ public class DeckAggregate {
         if(command.getNewDeckName().length()<20) {
             AggregateLifecycle.apply(
                     new DeckRenamed(
+                            command.getId(),
                             command.getDeckId(),
                             command.getNewDeckName()
                     )
@@ -67,7 +92,7 @@ public class DeckAggregate {
 
     @EventSourcingHandler
     public void on(DeckRenamed event) {
-        this.deckId = event.getDeckId();
+        this.id = event.getId();
     }
 
     @CommandHandler
@@ -75,6 +100,7 @@ public class DeckAggregate {
         //TODO check if cards are legit
         AggregateLifecycle.apply(
                 new CardsAdded(
+                        command.getId(),
                         command.getDeckId(),
                         command.getCards()
                 )
@@ -83,13 +109,14 @@ public class DeckAggregate {
 
     @EventSourcingHandler
     public void on(CardsAdded event) {
-        this.deckId = event.getDeckId();
+        this.id = event.getDeckId();
     }
 
     @CommandHandler
     public DeckAggregate(RemoveCards command) {
         AggregateLifecycle.apply(
                 new CardsRemoved(
+                        command.getId(),
                         command.getDeckId(),
                         command.getCards()
                 )
@@ -98,7 +125,7 @@ public class DeckAggregate {
 
     @EventSourcingHandler
     public void on(CardsRemoved event) {
-        this.deckId = event.getDeckId();
+        this.id = event.getId();
     }
 
     protected DeckAggregate() {}

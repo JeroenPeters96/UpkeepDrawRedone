@@ -9,26 +9,33 @@ import java.util.Objects;
 
 public class CardsRemoved {
     @TargetAggregateIdentifier
+    private final String id;
     private final String deckId;
     private final Map<Card,Integer> cards;
 
-    public CardsRemoved(String deckId, Map<Card,Integer>  cards) {
+    public CardsRemoved(String id, String deckId, Map<Card, Integer> cards) {
+        this.id = id;
         this.deckId = deckId;
         this.cards = cards;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getDeckId() {
         return deckId;
     }
 
-    public Map<Card,Integer>  getCards() {
+    public Map<Card, Integer> getCards() {
         return cards;
     }
 
     @Override
     public String toString() {
         return "CardsRemoved{" +
-                "deckId='" + deckId + '\'' +
+                "id='" + id + '\'' +
+                ", deckId='" + deckId + '\'' +
                 ", cards=" + cards +
                 '}';
     }
@@ -36,14 +43,15 @@ public class CardsRemoved {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof CardsRemoved)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         CardsRemoved that = (CardsRemoved) o;
-        return Objects.equals(deckId, that.deckId) &&
-                Objects.equals(cards, that.cards);
+        return Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getDeckId(), that.getDeckId()) &&
+                Objects.equals(getCards(), that.getCards());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(deckId, cards);
+        return Objects.hash(getId(), getDeckId(), getCards());
     }
 }

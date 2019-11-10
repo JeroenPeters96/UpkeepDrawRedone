@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import upd.cardservice.Commands.UpdateCards;
-import upd.cardservice.Controllers.IncomingModels.UpdateCardsApiModel;
 
 import java.util.UUID;
 
@@ -31,14 +29,5 @@ public class CardCommandController {
         this.queryGateway = queryGateway;
     }
 
-    @PostMapping
-    public void updateCards(@RequestBody UpdateCardsApiModel apiModel) {
-        commandGateway.send(
-                new UpdateCards(
-                        UUID.randomUUID().toString(),
-                        apiModel.getCards()
-                )
-        );
-    }
 
 }

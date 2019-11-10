@@ -6,16 +6,22 @@ import java.util.Objects;
 
 public class DeckCreated {
     @TargetAggregateIdentifier
+    private final String id;
     private final String deckId;
     private final String accountId;
     private final String name;
     private final String description;
 
-    public DeckCreated(String deckId, String accountId, String name, String description) {
+    public DeckCreated(String id, String deckId, String accountId, String name, String description) {
+        this.id = id;
         this.deckId = deckId;
         this.accountId = accountId;
         this.name = name;
         this.description = description;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getDeckId() {
@@ -37,7 +43,8 @@ public class DeckCreated {
     @Override
     public String toString() {
         return "DeckCreated{" +
-                "deckId='" + deckId + '\'' +
+                "id='" + id + '\'' +
+                ", deckId='" + deckId + '\'' +
                 ", accountId='" + accountId + '\'' +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
@@ -47,16 +54,17 @@ public class DeckCreated {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof DeckCreated)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         DeckCreated that = (DeckCreated) o;
-        return Objects.equals(deckId, that.deckId) &&
-                Objects.equals(accountId, that.accountId) &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(description, that.description);
+        return Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getDeckId(), that.getDeckId()) &&
+                Objects.equals(getAccountId(), that.getAccountId()) &&
+                Objects.equals(getName(), that.getName()) &&
+                Objects.equals(getDescription(), that.getDescription());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(deckId, accountId, name, description);
+        return Objects.hash(getId(), getDeckId(), getAccountId(), getName(), getDescription());
     }
 }

@@ -14,11 +14,11 @@
         <module name="intergrationtest" />
         <module name="AccountService" />
         <module name="DiscoveryService" />
-        <module name="EdhrecService" />
+        <module name="mcmservice" />
         <module name="edhrecservice" />
         <module name="cardservice" />
         <module name="CardService" />
-        <module name="mcmservice" />
+        <module name="EdhrecService" />
       </profile>
     </annotationProcessing>
   </component>
