@@ -1,36 +1,40 @@
 package upd.cardservice.Queries;
 
+import upd.cardservice.Models.Card;
+
+import java.util.List;
 import java.util.Objects;
 
 public class GetCardsById {
 
-    private final String cardId;
+   private final List<String> cardIdList;
 
-    public GetCardsById(String cardId) {
-        this.cardId = cardId;
+    public GetCardsById(List<String> cardIdList) {
+        this.cardIdList = cardIdList;
     }
 
-    public String getCardId() {
-        return cardId;
+    public List<String> getCardIdList() {
+        return cardIdList;
     }
 
     @Override
     public String toString() {
         return "GetCardsById{" +
-                "cardId='" + cardId + '\'' +
+                "cardIdList=" + cardIdList +
                 '}';
     }
+
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof GetCardsById)) return false;
         GetCardsById that = (GetCardsById) o;
-        return Objects.equals(getCardId(), that.getCardId());
+        return Objects.equals(cardIdList, that.cardIdList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getCardId());
+        return Objects.hash(cardIdList);
     }
 }

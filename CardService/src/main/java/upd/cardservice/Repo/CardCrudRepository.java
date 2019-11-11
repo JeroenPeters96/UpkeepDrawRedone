@@ -6,4 +6,7 @@ import upd.cardservice.Models.Card;
 
 @Repository
 public interface CardCrudRepository  extends CrudRepository<Card,String> {
+    Card findCardByCardname(String cardname);
+    Card findCardById(String cardId);
+    Card findCardsBySetName(String setname);
 }
