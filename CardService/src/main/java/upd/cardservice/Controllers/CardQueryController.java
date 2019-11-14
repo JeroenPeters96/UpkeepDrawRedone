@@ -5,6 +5,7 @@ import io.swagger.annotations.SwaggerDefinition;
 import io.swagger.annotations.Tag;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.queryhandling.QueryGateway;
+import org.axonframework.queryhandling.responsetypes.ResponseTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import upd.cardservice.Models.Card;
 import upd.cardservice.Queries.GetAutocomplete;
 import upd.cardservice.Queries.GetCardByName;
 import upd.cardservice.Queries.GetCardsById;
+import upd.cardservice.Queries.GetCardsByName;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -23,6 +25,7 @@ import java.util.concurrent.ExecutionException;
 @SwaggerDefinition( tags = {
         @Tag(name = "Card Queries",description = "Card related functionalities")
 })
+
 public class CardQueryController {
 
     private final CommandGateway commandGateway;
@@ -42,7 +45,25 @@ public class CardQueryController {
         List<Card> cards;
         try {
             cards = queryGateway.query(
-                    new GetCardsById(cardIds), List.class).get();
+                    new GetCardsById(cardIds),ResponseTypes.multipleInstancesOf(Card.class)).get();
+            if (cards.size() != 0)
+                return new ResponseEntity<>(cards, HttpStatus.OK);
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/getCardsByName")
+    public ResponseEntity<List<Card>> getCardsByNames(@RequestBody List<String> cardNames) {
+        if(cardNames.size()==0) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        List<Card> cards;
+        try {
+            cards = queryGateway.query(
+                    new GetCardsByName(cardNames),ResponseTypes.multipleInstancesOf(Card.class)).get();
             if (cards.size() != 0)
                 return new ResponseEntity<>(cards, HttpStatus.OK);
         } catch (InterruptedException | ExecutionException e) {
@@ -60,7 +81,7 @@ public class CardQueryController {
         List<String> cardnames;
         try {
             cardnames = queryGateway.query(
-                    new GetAutocomplete(name),List.class).get();
+                    new GetAutocomplete(name), ResponseTypes.multipleInstancesOf(String.class)).get();
             if(cardnames.size()!=0)
             return new ResponseEntity<>(cardnames,HttpStatus.OK);
         } catch (InterruptedException | ExecutionException e) {
@@ -73,6 +94,9 @@ public class CardQueryController {
     @GetMapping("/name/{name}")
     public ResponseEntity<Card> getCardByName(@PathVariable String name) {
         if(name.equals("")) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        if(name.length()==1) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         Card card;

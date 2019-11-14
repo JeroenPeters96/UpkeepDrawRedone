@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import upd.accountservice.Controllers.IncomingModels.GetAccountByIdApiModel;
@@ -56,4 +57,18 @@ public class AccountQueryController {
         return new ResponseEntity<>(null,HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping("/getUsername/{id}")
+    public ResponseEntity<String> findUsername(@PathVariable String id) {
+        try {
+            Account account = queryGateway.query(
+                    new FindAccountById(id),
+                    Account.class).get();
+            if(account!=null && account.getId().equals(id))
+                return new ResponseEntity<>(account.getUsername(),HttpStatus.OK);
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(null,HttpStatus.NO_CONTENT);
+    }
 }

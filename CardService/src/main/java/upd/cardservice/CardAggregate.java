@@ -18,4 +18,6 @@ public class CardAggregate {
     private String Id;
 
     protected CardAggregate() {}
+
+
 }

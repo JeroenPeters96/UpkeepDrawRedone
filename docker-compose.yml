@@ -21,16 +21,16 @@ services:
       - mysqlaccount
       - mongodbacc
       - kafka
-#  cardservice:
-#    build:
-#      context: CardService/
-#      dockerfile: Dockerfile
-#    ports:
-#      - 8082:8080
-#    depends_on:
-#      - mysqlcard
-#      - mongodbcard
-#      - kafka
+  cardservice:
+    build:
+      context: CardService/
+      dockerfile: Dockerfile
+    ports:
+      - 8082:8080
+    depends_on:
+      - mysqlcard
+      - mongodbcard
+      - kafka
   intergration:
     build:
       context: IntergrationTest/

@@ -1,20 +1,17 @@
 package upd.cardservice.Services;
 
-import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import upd.cardservice.Models.Card;
-import upd.cardservice.Queries.GetAutocomplete;
-import upd.cardservice.Queries.GetCardByName;
-import upd.cardservice.Queries.GetCardsById;
-import upd.cardservice.Queries.GetCardsBySet;
+import upd.cardservice.Queries.*;
 import upd.cardservice.Repo.CardCrudRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-@Service
+@Component
 public class CardQueryHandler {
 
     private CardCrudRepository repository;
@@ -35,6 +32,9 @@ public class CardQueryHandler {
        Card card = repository.findCardByCardname(query.getCardName());
        if(card==null) {
            card = apiService.findCard(query.getCardName());
+           if(card==null) {
+               return new Card();
+           }
            repository.save(card);
        }
        return card;
@@ -52,11 +52,17 @@ public class CardQueryHandler {
     @QueryHandler
     public List<String> handle(GetAutocomplete query) {
         return apiService.autocompleteCall(query.getPartialCardname());
+
     }
 
     @QueryHandler
     public List<Card> handle(GetCardsBySet query) {
         return apiService.getCardsBySet(query.getSet());
+    }
+
+    @QueryHandler
+    public List<Card> handle(GetCardsByName query) {
+        return apiService.getCardsByName(query.getCardNames());
     }
 
 }
