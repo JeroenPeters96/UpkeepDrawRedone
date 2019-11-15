@@ -7,10 +7,10 @@ import java.util.Objects;
 public class ChangeEmail  {
     @TargetAggregateIdentifier
     private final String id;
-    private final String accountId;
+    private final int accountId;
     private final String email;
 
-    public ChangeEmail(String id, String accountId, String email) {
+    public ChangeEmail(String id, int accountId, String email) {
         this.id = id;
         this.accountId = accountId;
         this.email = email;
@@ -20,7 +20,7 @@ public class ChangeEmail  {
         return id;
     }
 
-    public String getAccountId() {
+    public int getAccountId() {
         return accountId;
     }
 

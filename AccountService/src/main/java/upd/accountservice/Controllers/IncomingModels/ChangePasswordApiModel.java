@@ -2,19 +2,19 @@ package upd.accountservice.Controllers.IncomingModels;
 
 public class ChangePasswordApiModel {
 
-    private String accountId;
+    private int accountId;
     private String password;
 
-    public ChangePasswordApiModel(String accountId, String password) {
+    public ChangePasswordApiModel(int accountId, String password) {
         this.accountId = accountId;
         this.password = password;
     }
 
-    public String getAccountId() {
+    public int getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(String accountId) {
+    public void setAccountId(int accountId) {
         this.accountId = accountId;
     }
 

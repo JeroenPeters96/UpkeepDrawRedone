@@ -8,9 +8,9 @@ public class AccountDeleted {
 
     @TargetAggregateIdentifier
     private final String id;
-    private final String accountId;
+    private final int accountId;
 
-    public AccountDeleted(String id, String accountId) {
+    public AccountDeleted(String id, int accountId) {
         this.id = id;
         this.accountId = accountId;
     }
@@ -19,7 +19,7 @@ public class AccountDeleted {
         return id;
     }
 
-    public String getAccountId() {
+    public int getAccountId() {
         return accountId;
     }
 

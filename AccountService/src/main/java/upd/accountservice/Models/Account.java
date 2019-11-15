@@ -2,10 +2,7 @@ package upd.accountservice.Models;
 
 import upd.accountservice.Events.AccountCreated;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -15,9 +12,10 @@ public class Account implements Serializable {
 
     @Id
     @Column(name = "ID", unique = true, nullable = false, updatable = false)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private int id;
 
-    @Column(name = "Email", nullable = false)
+    @Column(name = "Email", nullable = false, unique = true)
     private String email;
 
     @Column(name = "Password", nullable = false)
@@ -30,20 +28,18 @@ public class Account implements Serializable {
     }
 
     public Account(final AccountCreated event) {
-        this.id = event.getAccountId();
         this.email = event.getEmail();
         this.username = event.getUsername();
         this.password = event.getPassword();
     }
 
-    public Account(String id, String email, String password, String username) {
-        this.id = id;
+    public Account(String email, String password, String username) {
         this.email = email;
         this.password = password;
         this.username = username;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -59,7 +55,7 @@ public class Account implements Serializable {
         return username;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

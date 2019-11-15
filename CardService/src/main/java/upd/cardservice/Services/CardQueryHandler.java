@@ -32,6 +32,7 @@ public class CardQueryHandler {
        Card card = repository.findCardByCardname(query.getCardName());
        if(card==null) {
            card = apiService.findCard(query.getCardName());
+           System.out.println(card);
            if(card==null) {
                return new Card();
            }
@@ -43,8 +44,9 @@ public class CardQueryHandler {
     @QueryHandler
     public List<Card> handle(GetCardsById query) {
         List<Card> cardList = new ArrayList<>();
-        for(String cardId : query.getCardIdList()) {
-            cardList.add(repository.findCardById(cardId));
+        for(Integer cardId : query.getCardIdList()) {
+            if(repository.findById(cardId).isPresent())
+            cardList.add(repository.findById(cardId).get());
         }
         return cardList;
     }

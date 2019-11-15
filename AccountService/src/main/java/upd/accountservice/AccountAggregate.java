@@ -11,6 +11,7 @@ import upd.accountservice.Commands.ChangeEmail;
 import upd.accountservice.Commands.CreateAccount;
 import upd.accountservice.Commands.DeleteAccount;
 import upd.accountservice.Events.AccountCreated;
+import upd.accountservice.Events.AccountDeleted;
 import upd.accountservice.Events.EmailChanged;
 
 import java.util.regex.Pattern;
@@ -34,7 +35,6 @@ public class AccountAggregate {
         AggregateLifecycle.apply(
                 new AccountCreated(
                 command.getId(),
-                command.getAccountId(),
                 command.getEmail(),
                 command.getPassword(),
                 command.getUsername()
@@ -69,7 +69,17 @@ public class AccountAggregate {
 
     @CommandHandler
     public AccountAggregate(DeleteAccount command) {
+        AggregateLifecycle.apply(
+                new AccountDeleted(
+                        command.getId(),
+                        command.getAccountId()
+                )
+        );
+    }
 
+    @EventSourcingHandler
+    public void on(AccountDeleted event) {
+        this.id = event.getId();
     }
 
     protected AccountAggregate() {}

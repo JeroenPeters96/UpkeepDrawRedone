@@ -14,15 +14,19 @@ public class DeckCreatedWithCards {
     private final String accountId;
     private final String name;
     private final String description;
+    private final String format;
+    private final String cardArt;
     private final Map<Card, Integer> cards;
 
-    public DeckCreatedWithCards(String id, String deckId, String accountId, String name, String description, Map<Card, Integer> cards) {
+    public DeckCreatedWithCards(String id, String deckId, String accountId, String name, String description,String format,String cardArt, Map<Card, Integer> cards) {
         this.id = id;
         this.deckId = deckId;
         this.accountId = accountId;
         this.name = name;
         this.description = description;
         this.cards = cards;
+        this.format = format;
+        this.cardArt = cardArt;
     }
 
     public String getId() {
@@ -49,6 +53,14 @@ public class DeckCreatedWithCards {
         return cards;
     }
 
+    public String getFormat() {
+        return format;
+    }
+
+    public String getCardArt() {
+        return cardArt;
+    }
+
     @Override
     public String toString() {
         return "DeckCreatedWithCards{" +
@@ -57,6 +69,8 @@ public class DeckCreatedWithCards {
                 ", accountId='" + accountId + '\'' +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
+                ", format='" + format + '\'' +
+                ", cardArt='" + cardArt + '\'' +
                 ", cards=" + cards +
                 '}';
     }
@@ -71,11 +85,13 @@ public class DeckCreatedWithCards {
                 Objects.equals(getAccountId(), that.getAccountId()) &&
                 Objects.equals(getName(), that.getName()) &&
                 Objects.equals(getDescription(), that.getDescription()) &&
+                Objects.equals(getFormat(), that.getFormat()) &&
+                Objects.equals(getCardArt(), that.getCardArt()) &&
                 Objects.equals(getCards(), that.getCards());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getDeckId(), getAccountId(), getName(), getDescription(), getCards());
+        return Objects.hash(getId(), getDeckId(), getAccountId(), getName(), getDescription(), getFormat(), getCardArt(), getCards());
     }
 }

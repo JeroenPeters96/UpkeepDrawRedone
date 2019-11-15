@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import upd.accountservice.Commands.*;
 import upd.accountservice.Controllers.IncomingModels.*;
 import upd.accountservice.Models.Account;
+import upd.accountservice.Queries.FindAccountByEmail;
 import upd.accountservice.Queries.FindAccountById;
 
 import java.util.UUID;
@@ -38,12 +39,22 @@ public class AccountCommandController {
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterApiModel apiModel) {
-        String accountId = UUID.randomUUID().toString();
         String id = UUID.randomUUID().toString();
+        System.out.println(apiModel);
+        Account exsistingAccount = null;
+        try {
+            exsistingAccount = queryGateway.query(new FindAccountByEmail(apiModel.getEmail()), Account.class).get();
+            if(exsistingAccount!=null) {
+                System.out.println("already exsists");
+                return new  ResponseEntity<String>("Email already exists",HttpStatus.BAD_REQUEST);
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
         commandGateway.send(
                 new CreateAccount(
                         id,
-                        accountId,
                         apiModel.getEmail(),
                         apiModel.getPassword(),
                         apiModel.getUsername()
@@ -53,16 +64,15 @@ public class AccountCommandController {
         Account savedAccount;
 
         try {
-            savedAccount = queryGateway.query(new FindAccountById(accountId), Account.class).get();
-            if (savedAccount.getId().equals(accountId) &&
-                    savedAccount.getEmail().equals(apiModel.getEmail()) &&
+            savedAccount = queryGateway.query(new FindAccountByEmail(apiModel.getEmail()), Account.class).get();
+            if (    savedAccount.getEmail().equals(apiModel.getEmail()) &&
                     savedAccount.getUsername().equals(apiModel.getUsername()) &&
                     savedAccount.getPassword().equals(apiModel.getPassword()))
-                return new ResponseEntity<>("Registration succesfull", HttpStatus.OK);
+                return new ResponseEntity<>("Registration successful", HttpStatus.OK);
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-        return new ResponseEntity<>("Registration unsuccesfull", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("Registration unsuccessful", HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/delete")

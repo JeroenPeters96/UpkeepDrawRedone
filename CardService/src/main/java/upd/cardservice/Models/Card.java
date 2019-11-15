@@ -11,11 +11,9 @@ import java.util.Objects;
 public class Card implements Serializable {
 
     @Id
-    @Column(name = "ID", unique = true, nullable = false, updatable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
 
-    @Column(name = "name", nullable = false)
     private String cardname;
 
     private int cmc;

@@ -32,21 +32,38 @@ public class Deck implements Serializable {
             joinColumns = @JoinColumn(name = "count"))
     @MapKeyJoinColumn(name = "cartId")
     @Column(name = "cardsindeck")
-    private Map<Card,String> cards = new HashMap<>();
+    private Map<Card,Integer> cards = new HashMap<>();
 
-    public Deck(String id, String accountId, String deckname, String description, Map<Card, String> cards) {
+    private String format;
+
+    private String deckArt;
+
+    public Deck(String id, String accountId, String deckname, String description, Map<Card, Integer> cards, String format, String deckArt) {
         this.id = id;
         this.accountId = accountId;
         this.deckname = deckname;
         this.description = description;
         this.cards = cards;
+        this.format = format;
+        this.deckArt = deckArt;
     }
 
-    public Deck(String id, String accountId, String deckname, String description) {
+    public Deck(String id, String accountId, String deckname, String description, String format, String deckArt) {
         this.id = id;
         this.accountId = accountId;
         this.deckname = deckname;
         this.description = description;
+        this.format = format;
+        this.deckArt = deckArt;
+    }
+
+    public Deck(String id, String accountId, String deckname, String description, String format) {
+        this.id = id;
+        this.accountId = accountId;
+        this.deckname = deckname;
+        this.description = description;
+        this.format = format;
+        this.deckArt = "";
     }
 
     public Deck(DeckCreated event) {
@@ -55,6 +72,8 @@ public class Deck implements Serializable {
      this.deckname = event.getName();
      this.description = event.getDescription();
      this.cards = new HashMap<>();
+     this.format = event.getFormat();
+     this.deckArt = "";
     }
 
     public Deck(DeckCreatedWithCards event) {
@@ -62,7 +81,9 @@ public class Deck implements Serializable {
         this.accountId = event.getAccountId();
         this.deckname = event.getName();
         this.description = event.getDescription();
-        //this.cards = event.getCards();
+        this.cards = event.getCards();
+        this.format = event.getFormat();
+        this.deckArt = event.getCardArt();
     }
 
     public Deck() {
@@ -100,12 +121,28 @@ public class Deck implements Serializable {
         this.description = description;
     }
 
-    public Map<Card, String> getCards() {
+    public Map<Card, Integer> getCards() {
         return cards;
     }
 
-    public void setCards(Map<Card, String> cards) {
+    public void setCards(Map<Card, Integer> cards) {
         this.cards = cards;
+    }
+
+    public String getFormat() {
+        return format;
+    }
+
+    public void setFormat(String format) {
+        this.format = format;
+    }
+
+    public String getDeckArt() {
+        return deckArt;
+    }
+
+    public void setDeckArt(String deckArt) {
+        this.deckArt = deckArt;
     }
 
     @Override
@@ -116,23 +153,27 @@ public class Deck implements Serializable {
                 ", deckname='" + deckname + '\'' +
                 ", description='" + description + '\'' +
                 ", cards=" + cards +
+                ", format='" + format + '\'' +
+                ", deckArt='" + deckArt + '\'' +
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Deck)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Deck deck = (Deck) o;
-        return Objects.equals(id, deck.id) &&
-                Objects.equals(accountId, deck.accountId) &&
-                Objects.equals(deckname, deck.deckname) &&
-                Objects.equals(description, deck.description) &&
-                Objects.equals(cards, deck.cards);
+        return Objects.equals(getId(), deck.getId()) &&
+                Objects.equals(getAccountId(), deck.getAccountId()) &&
+                Objects.equals(getDeckname(), deck.getDeckname()) &&
+                Objects.equals(getDescription(), deck.getDescription()) &&
+                Objects.equals(getCards(), deck.getCards()) &&
+                Objects.equals(getFormat(), deck.getFormat()) &&
+                Objects.equals(getDeckArt(), deck.getDeckArt());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, accountId, deckname, description, cards);
+        return Objects.hash(getId(), getAccountId(), getDeckname(), getDescription(), getCards(), getFormat(), getDeckArt());
     }
 }

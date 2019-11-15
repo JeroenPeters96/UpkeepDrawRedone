@@ -2,19 +2,19 @@ package upd.accountservice.Controllers.IncomingModels;
 
 public class ChangeUsernameApiModel {
 
-    private String accountId;
+    private int accountId;
     private String username;
 
-    public ChangeUsernameApiModel(String accountId, String username) {
+    public ChangeUsernameApiModel(int accountId, String username) {
         this.accountId = accountId;
         this.username = username;
     }
 
-    public String getAccountId() {
+    public int getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(String accountId) {
+    public void setAccountId(int accountId) {
         this.accountId = accountId;
     }
 

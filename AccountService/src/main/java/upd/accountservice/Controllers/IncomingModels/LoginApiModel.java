@@ -1,13 +1,11 @@
 package upd.accountservice.Controllers.IncomingModels;
 
-public class RegisterApiModel {
+public class LoginApiModel {
     private String email;
-    private String username;
     private String password;
 
-    public RegisterApiModel(String email, String username, String password) {
+    public LoginApiModel(String email, String password) {
         this.email = email;
-        this.username = username;
         this.password = password;
     }
 
@@ -17,14 +15,6 @@ public class RegisterApiModel {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getPassword() {
@@ -37,9 +27,8 @@ public class RegisterApiModel {
 
     @Override
     public String toString() {
-        return "RegisterApiModel{" +
+        return "LoginApiModel{" +
                 "email='" + email + '\'' +
-                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }

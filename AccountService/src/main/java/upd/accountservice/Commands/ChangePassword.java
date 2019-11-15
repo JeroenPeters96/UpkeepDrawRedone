@@ -7,10 +7,10 @@ import java.util.Objects;
 public class ChangePassword {
     @TargetAggregateIdentifier
     private final String id;
-    private final String accountId;
+    private final int accountId;
     private final String newPassword;
 
-    public ChangePassword(String id, String accountId, String newPassword) {
+    public ChangePassword(String id, int accountId, String newPassword) {
         this.id = id;
         this.accountId = accountId;
         this.newPassword = newPassword;
@@ -20,7 +20,7 @@ public class ChangePassword {
         return id;
     }
 
-    public String getAccountId() {
+    public int getAccountId() {
         return accountId;
     }
 

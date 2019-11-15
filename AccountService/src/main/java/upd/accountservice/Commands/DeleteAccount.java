@@ -7,9 +7,9 @@ import java.util.Objects;
 public class DeleteAccount {
     @TargetAggregateIdentifier
     private final String id;
-    private final String accountId;
+    private final int accountId;
 
-    public DeleteAccount(String id, String accountId) {
+    public DeleteAccount(String id, int accountId) {
         this.id = id;
         this.accountId = accountId;
     }
@@ -18,7 +18,7 @@ public class DeleteAccount {
         return id;
     }
 
-    public String getAccountId() {
+    public int getAccountId() {
         return accountId;
     }
 

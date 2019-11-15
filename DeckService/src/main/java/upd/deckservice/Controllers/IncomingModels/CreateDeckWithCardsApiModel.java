@@ -1,22 +1,23 @@
 package upd.deckservice.Controllers.IncomingModels;
 
-import org.axonframework.commandhandling.TargetAggregateIdentifier;
 import upd.deckservice.Models.Card;
 
 import java.util.Map;
 import java.util.Objects;
 
 public class CreateDeckWithCardsApiModel {
-   private final String accountId;
+    private final String accountId;
     private final String name;
     private final String description;
     private final Map<Card,Integer> cards;
+    private final String format;
 
-    public CreateDeckWithCardsApiModel(String accountId, String name, String description, Map<Card, Integer> cards) {
+    public CreateDeckWithCardsApiModel(String accountId, String name, String description, Map<Card, Integer> cards, String format) {
         this.accountId = accountId;
         this.name = name;
         this.description = description;
         this.cards = cards;
+        this.format = format;
     }
 
     public String getAccountId() {
@@ -35,6 +36,10 @@ public class CreateDeckWithCardsApiModel {
         return cards;
     }
 
+    public String getFormat() {
+        return format;
+    }
+
     @Override
     public String toString() {
         return "CreateDeckWithCardsApiModel{" +
@@ -42,22 +47,24 @@ public class CreateDeckWithCardsApiModel {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", cards=" + cards +
+                ", format='" + format + '\'' +
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof CreateDeckWithCardsApiModel)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         CreateDeckWithCardsApiModel that = (CreateDeckWithCardsApiModel) o;
-        return Objects.equals(accountId, that.accountId) &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(description, that.description) &&
-                Objects.equals(cards, that.cards);
+        return Objects.equals(getAccountId(), that.getAccountId()) &&
+                Objects.equals(getName(), that.getName()) &&
+                Objects.equals(getDescription(), that.getDescription()) &&
+                Objects.equals(getCards(), that.getCards()) &&
+                Objects.equals(getFormat(), that.getFormat());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(accountId, name, description, cards);
+        return Objects.hash(getAccountId(), getName(), getDescription(), getCards(), getFormat());
     }
 }

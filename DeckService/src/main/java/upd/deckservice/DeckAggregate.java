@@ -21,15 +21,14 @@ public class DeckAggregate {
 
     @CommandHandler
     public DeckAggregate(CreateDeck command) {
-        //TODO find accountId to check
-
         AggregateLifecycle.apply(
                 new DeckCreated(
                         command.getId(),
                         command.getDeckId(),
                         command.getAccountId(),
                         command.getName(),
-                        command.getDescription()
+                        command.getDescription(),
+                        command.getFormat()
                 )
         );
     }
@@ -41,8 +40,6 @@ public class DeckAggregate {
 
     @CommandHandler
     public DeckAggregate(CreateDeckWithCards command) {
-        //TODO find accountId to check
-
         AggregateLifecycle.apply(
                 new DeckCreatedWithCards(
                         command.getId(),
@@ -50,6 +47,8 @@ public class DeckAggregate {
                         command.getAccountId(),
                         command.getName(),
                         command.getDescription(),
+                        command.getFormat(),
+                        command.getCardArt(),
                         command.getCards()
                 )
         );
@@ -63,7 +62,6 @@ public class DeckAggregate {
 
     @CommandHandler
     public DeckAggregate(DeleteDeck command) {
-
         AggregateLifecycle.apply(
                 new DeckDeleted(
                         command.getId(),
@@ -97,7 +95,6 @@ public class DeckAggregate {
 
     @CommandHandler
     public DeckAggregate(AddCard command) {
-        //TODO check if cards are legit
         AggregateLifecycle.apply(
                 new CardsAdded(
                         command.getId(),
@@ -125,6 +122,38 @@ public class DeckAggregate {
 
     @EventSourcingHandler
     public void on(CardsRemoved event) {
+        this.id = event.getId();
+    }
+
+    @CommandHandler
+    public DeckAggregate(ChangeFormat command) {
+        AggregateLifecycle.apply(
+                new FormatSaved(
+                        command.getId(),
+                        command.getDeckId(),
+                        command.getFormat()
+                )
+        );
+    }
+
+    @EventSourcingHandler
+    public void on(FormatSaved event) {
+        this.id = event.getId();
+    }
+
+    @CommandHandler
+    public DeckAggregate(SetCardArt command) {
+        AggregateLifecycle.apply(
+                new CardArtSet(
+                        command.getId(),
+                        command.getDeckId(),
+                        command.getCardId()
+                )
+        );
+    }
+
+    @EventSourcingHandler
+    public void on(CardArtSet event) {
         this.id = event.getId();
     }
 

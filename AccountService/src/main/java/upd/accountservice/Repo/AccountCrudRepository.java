@@ -4,8 +4,12 @@ import org.springframework.data.repository.CrudRepository;
 import upd.accountservice.Models.Account;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface AccountCrudRepository extends CrudRepository<Account,String> {
+public interface AccountCrudRepository extends CrudRepository<Account,Integer> {
 
-    List<Account> findAccountByEmail(String email);
+    Account findAccountByEmail(String email);
+    Account findAccountByEmailAndPassword(String email, String password);
+
+    Account findById(int id);
 }

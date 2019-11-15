@@ -2,13 +2,13 @@ package upd.accountservice.Queries;
 
 public class FindAccountById {
 
-    private final String id;
+    private final int id;
 
-    public FindAccountById(String id) {
+    public FindAccountById(int id) {
         this.id = id;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 

@@ -68,4 +68,21 @@ public class DeckEventHandler {
         repository.save(deck);
     }
 
+    @EventHandler
+    public void on(CardArtSet event) {
+        Deck deck = repository.findDeckById(event.getDeckId());
+        if(deck!=null) {
+            deck.setDeckArt(event.getCardId());
+            repository.save(deck);
+        }
+    }
+
+    @EventHandler
+    public void on(FormatSaved event) {
+        Deck deck = repository.findDeckById(event.getDeckId());
+        if(deck!=null) {
+            deck.setFormat(event.getFormat());
+            repository.save(deck);
+        }
+    }
 }

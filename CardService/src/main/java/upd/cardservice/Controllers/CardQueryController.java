@@ -38,7 +38,7 @@ public class CardQueryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Card>> getCards(@RequestBody List<String> cardIds) {
+    public ResponseEntity<List<Card>> getCards(@RequestParam List<Integer> cardIds) {
         if (cardIds == null || cardIds.size() == 0) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -56,7 +56,7 @@ public class CardQueryController {
     }
 
     @GetMapping("/getCardsByName")
-    public ResponseEntity<List<Card>> getCardsByNames(@RequestBody List<String> cardNames) {
+    public ResponseEntity<List<Card>> getCardsByNames(@RequestParam List<String> cardNames) {
         if(cardNames.size()==0) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -94,12 +94,11 @@ public class CardQueryController {
 
     @GetMapping("/name/{name}")
     public ResponseEntity<Card> getCardByName(@PathVariable String name) {
+
         if(name.equals("")) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        if(name.length()==1) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        System.out.println(name);
         Card card;
         try {
             card = queryGateway.query(

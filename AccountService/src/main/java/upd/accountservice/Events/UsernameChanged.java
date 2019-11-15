@@ -8,10 +8,10 @@ public class UsernameChanged  {
 
     @TargetAggregateIdentifier
     private final String id;
-    private final String accountId;
+    private final int accountId;
     private final String newUsername;
 
-    public UsernameChanged(String id, String accountId, String newUsername) {
+    public UsernameChanged(String id, int accountId, String newUsername) {
         this.id = id;
         this.accountId = accountId;
         this.newUsername = newUsername;
@@ -21,7 +21,7 @@ public class UsernameChanged  {
         return id;
     }
 
-    public String getAccountId() {
+    public int getAccountId() {
         return accountId;
     }
 

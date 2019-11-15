@@ -60,6 +60,7 @@ public class CardApiService {
     public Card findCard(String cardName) {
       String url = baseUrl+"/cards/named?exact="+cardName;
       String response = sendGet(url);
+        System.out.println(response);
       if(response==null) {
           return new Card();
       }
@@ -67,6 +68,7 @@ public class CardApiService {
       if(card==null||card.size()==0) {
           return new Card();
       }
+        System.out.println(card);
       return card.get(0);
     }
 

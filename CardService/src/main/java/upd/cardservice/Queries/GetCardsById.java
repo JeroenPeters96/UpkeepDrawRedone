@@ -7,13 +7,13 @@ import java.util.Objects;
 
 public class GetCardsById {
 
-   private final List<String> cardIdList;
+   private final List<Integer> cardIdList;
 
-    public GetCardsById(List<String> cardIdList) {
+    public GetCardsById(List<Integer> cardIdList) {
         this.cardIdList = cardIdList;
     }
 
-    public List<String> getCardIdList() {
+    public List<Integer> getCardIdList() {
         return cardIdList;
     }
 

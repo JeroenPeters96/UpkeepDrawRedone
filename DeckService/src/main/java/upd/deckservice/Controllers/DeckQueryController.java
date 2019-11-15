@@ -28,8 +28,8 @@ public class DeckQueryController {
         this.queryGateway = queryGateway;
     }
 
-    @GetMapping("/id")
-    public ResponseEntity<Deck> getDeckById(@RequestBody String id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<Deck> getDeckById(@PathVariable String id) {
         try {
             Deck foundDeck = queryGateway.query(getDeckById(id),Deck.class).get();
             if(foundDeck!=null) {
@@ -42,8 +42,8 @@ public class DeckQueryController {
         return new ResponseEntity<>(null,HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/user")
-    public ResponseEntity<List<Deck>> getDecksByUser(@RequestBody String id) {
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<Deck>> getDecksByUser(@PathVariable String id) {
         try {
             List found = queryGateway.query(getDecksByUser(id),List.class).get();
             List<Deck> foundDecks = found;

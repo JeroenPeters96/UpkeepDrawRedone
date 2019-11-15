@@ -8,10 +8,10 @@ public class EmailChanged {
 
     @TargetAggregateIdentifier
     private final String id;
-    private final String accountId;
+    private final int accountId;
     private final String email;
 
-    public EmailChanged(String id, String accountId, String email) {
+    public EmailChanged(String id, int accountId, String email) {
         this.id = id;
         this.accountId = accountId;
         this.email = email;
@@ -21,7 +21,7 @@ public class EmailChanged {
         return id;
     }
 
-    public String getAccountId() {
+    public int getAccountId() {
         return accountId;
     }
 

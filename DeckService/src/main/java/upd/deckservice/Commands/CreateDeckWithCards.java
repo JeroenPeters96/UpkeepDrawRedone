@@ -15,14 +15,18 @@ public class CreateDeckWithCards {
     private final String name;
     private final String description;
     private final Map<Card,Integer> cards;
+    private final String format;
+    private final String cardArt;
 
-    public CreateDeckWithCards(String id, String deckId, String accountId, String name, String description, Map<Card, Integer> cards) {
+    public CreateDeckWithCards(String id, String deckId, String accountId, String name, String description, Map<Card, Integer> cards, String format,String cardArt) {
         this.id = id;
         this.deckId = deckId;
         this.accountId = accountId;
         this.name = name;
         this.description = description;
         this.cards = cards;
+        this.format = format;
+        this.cardArt = cardArt;
     }
 
     public String getId() {
@@ -49,6 +53,14 @@ public class CreateDeckWithCards {
         return cards;
     }
 
+    public String getFormat() {
+        return format;
+    }
+
+    public String getCardArt() {
+        return cardArt;
+    }
+
     @Override
     public String toString() {
         return "CreateDeckWithCards{" +
@@ -58,24 +70,28 @@ public class CreateDeckWithCards {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", cards=" + cards +
+                ", format='" + format + '\'' +
+                ", cardArt='" + cardArt + '\'' +
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof CreateDeckWithCards)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         CreateDeckWithCards that = (CreateDeckWithCards) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(deckId, that.deckId) &&
-                Objects.equals(accountId, that.accountId) &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(description, that.description) &&
-                Objects.equals(cards, that.cards);
+        return Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getDeckId(), that.getDeckId()) &&
+                Objects.equals(getAccountId(), that.getAccountId()) &&
+                Objects.equals(getName(), that.getName()) &&
+                Objects.equals(getDescription(), that.getDescription()) &&
+                Objects.equals(getCards(), that.getCards()) &&
+                Objects.equals(getFormat(), that.getFormat()) &&
+                Objects.equals(getCardArt(), that.getCardArt());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, deckId, accountId, name, description, cards);
+        return Objects.hash(getId(), getDeckId(), getAccountId(), getName(), getDescription(), getCards(), getFormat(), getCardArt());
     }
 }

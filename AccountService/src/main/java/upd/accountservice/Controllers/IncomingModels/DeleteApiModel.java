@@ -2,17 +2,17 @@ package upd.accountservice.Controllers.IncomingModels;
 
 public class DeleteApiModel {
 
-    private String accountId;
+    private int accountId;
 
-    public DeleteApiModel(String accountId) {
+    public DeleteApiModel(int accountId) {
         this.accountId = accountId;
     }
 
-    public String getAccountId() {
+    public int getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(String accountId) {
+    public void setAccountId(int accountId) {
         this.accountId = accountId;
     }
 }

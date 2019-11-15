@@ -4,22 +4,15 @@ import org.axonframework.commandhandling.TargetAggregateIdentifier;
 
 import java.util.Objects;
 
-public class CreateDeck {
-
+public class ChangeFormat {
     @TargetAggregateIdentifier
     private final String id;
     private final String deckId;
-    private final String accountId;
-    private final String name;
-    private final String description;
     private final String format;
 
-    public CreateDeck(String id, String deckId, String accountId, String name, String description, String format) {
+    public ChangeFormat(String id, String deckId, String format) {
         this.id = id;
         this.deckId = deckId;
-        this.accountId = accountId;
-        this.name = name;
-        this.description = description;
         this.format = format;
     }
 
@@ -31,30 +24,15 @@ public class CreateDeck {
         return deckId;
     }
 
-    public String getAccountId() {
-        return accountId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
     public String getFormat() {
         return format;
     }
 
     @Override
     public String toString() {
-        return "CreateDeck{" +
+        return "ChangeFormat{" +
                 "id='" + id + '\'' +
                 ", deckId='" + deckId + '\'' +
-                ", accountId='" + accountId + '\'' +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
                 ", format='" + format + '\'' +
                 '}';
     }
@@ -63,17 +41,14 @@ public class CreateDeck {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CreateDeck that = (CreateDeck) o;
+        ChangeFormat that = (ChangeFormat) o;
         return Objects.equals(getId(), that.getId()) &&
                 Objects.equals(getDeckId(), that.getDeckId()) &&
-                Objects.equals(getAccountId(), that.getAccountId()) &&
-                Objects.equals(getName(), that.getName()) &&
-                Objects.equals(getDescription(), that.getDescription()) &&
                 Objects.equals(getFormat(), that.getFormat());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getDeckId(), getAccountId(), getName(), getDescription(), getFormat());
+        return Objects.hash(getId(), getDeckId(), getFormat());
     }
 }

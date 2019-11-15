@@ -21,25 +21,25 @@ public class AccountEventHandler {
 
     @EventHandler
     public void on(AccountCreated event){
-        List<Account> existing = repository.findAccountByEmail(event.getEmail());
+        Account existing = repository.findAccountByEmail(event.getEmail());
 
-        if(existing == null || existing.size() == 0)
+        if(existing == null)
             repository.save(new Account(event));
     }
 
     @EventHandler
     public void on(AccountDeleted event){
-        if(repository.findById(event.getAccountId()).isPresent()){
-            repository.delete(repository.findById(event.getAccountId()).get());
+        if(repository.findById(event.getAccountId()+"").isPresent()){
+            repository.delete(repository.findById(event.getAccountId()+"").get());
         }
     }
 
     @EventHandler
     public void on(EmailChanged event){
         Account account;
-        if(!repository.findById(event.getAccountId()).isPresent())
+        if(!repository.findById(event.getAccountId()+"").isPresent())
             return;
-        account = repository.findById(event.getAccountId()).get();
+        account = repository.findById(event.getAccountId()+"").get();
         account.setEmail(event.getEmail());
         repository.save(account);
     }
@@ -47,9 +47,9 @@ public class AccountEventHandler {
     @EventHandler
     public void on(PasswordChanged event){
         Account account;
-        if(!repository.findById(event.getAccountId()).isPresent())
+        if(!repository.findById(event.getAccountId()+"").isPresent())
             return;
-        account = repository.findById(event.getAccountId()).get();
+        account = repository.findById(event.getAccountId()+ "").get();
         account.setPassword(event.getNewPassword());
         repository.save(account);
     }
@@ -57,9 +57,9 @@ public class AccountEventHandler {
     @EventHandler
     public void on(UsernameChanged event){
         Account account;
-        if(!repository.findById(event.getAccountId()).isPresent())
+        if(!repository.findById(event.getAccountId()+"").isPresent())
             return;
-        account = repository.findById(event.getAccountId()).get();
+        account = repository.findById(event.getAccountId()+"").get();
         account.setUsername(event.getNewUsername());
         repository.save(account);
     }

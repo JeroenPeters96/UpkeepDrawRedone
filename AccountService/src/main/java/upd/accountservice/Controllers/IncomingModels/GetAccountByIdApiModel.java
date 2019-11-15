@@ -3,13 +3,13 @@ package upd.accountservice.Controllers.IncomingModels;
 import java.util.Objects;
 
 public class GetAccountByIdApiModel {
-    private final String accountId;
+    private final int accountId;
 
-    public GetAccountByIdApiModel(String accountId) {
+    public GetAccountByIdApiModel(int accountId) {
         this.accountId = accountId;
     }
 
-    public String getAccountId() {
+    public int getAccountId() {
         return accountId;
     }
 

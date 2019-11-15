@@ -6,19 +6,19 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="accountservice" />
-        <module name="AccountService" />
-        <module name="CardService" />
-        <module name="cardservice" />
-        <module name="deckservice" />
         <module name="discoveryservice" />
-        <module name="DiscoveryService" />
-        <module name="edhrecservice" />
+        <module name="accountservice" />
+        <module name="CardService" />
+        <module name="deckservice" />
         <module name="EdhrecService" />
         <module name="intergrationtest" />
-        <module name="IntergrationTest" />
+        <module name="AccountService" />
         <module name="mcmservice" />
+        <module name="edhrecservice" />
+        <module name="IntergrationTest" />
+        <module name="cardservice" />
         <module name="McmService" />
+        <module name="DiscoveryService" />
       </profile>
     </annotationProcessing>
   </component>

@@ -8,14 +8,12 @@ public class AccountCreated  {
 
     @TargetAggregateIdentifier
     private final String id;
-    private final String accountId;
     private final String email;
     private final String password;
     private final String username;
 
-    public AccountCreated(String id, String accountId, String email, String password, String username) {
+    public AccountCreated(String id,  String email, String password, String username) {
         this.id = id;
-        this.accountId = accountId;
         this.email = email;
         this.password = password;
         this.username = username;
@@ -23,10 +21,6 @@ public class AccountCreated  {
 
     public String getId() {
         return id;
-    }
-
-    public String getAccountId() {
-        return accountId;
     }
 
     public String getEmail() {
@@ -45,7 +39,6 @@ public class AccountCreated  {
     public String toString() {
         return "AccountCreated{" +
                 "id='" + id + '\'' +
-                ", accountId='" + accountId + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", username='" + username + '\'' +
@@ -58,7 +51,6 @@ public class AccountCreated  {
         if (o == null || getClass() != o.getClass()) return false;
         AccountCreated that = (AccountCreated) o;
         return Objects.equals(getId(), that.getId()) &&
-                Objects.equals(getAccountId(), that.getAccountId()) &&
                 Objects.equals(getEmail(), that.getEmail()) &&
                 Objects.equals(getPassword(), that.getPassword()) &&
                 Objects.equals(getUsername(), that.getUsername());
@@ -66,6 +58,6 @@ public class AccountCreated  {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getAccountId(), getEmail(), getPassword(), getUsername());
+        return Objects.hash(getId(), getEmail(), getPassword(), getUsername());
     }
 }

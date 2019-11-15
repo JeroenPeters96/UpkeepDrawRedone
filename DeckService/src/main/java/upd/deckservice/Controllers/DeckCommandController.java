@@ -43,7 +43,8 @@ public class DeckCommandController {
                 deckId,
                 apiModel.getAccountId(),
                 apiModel.getName(),
-                apiModel.getDescription()
+                apiModel.getDescription(),
+                apiModel.getFormat()
         ));
 
         Deck savedDeck;
@@ -74,7 +75,9 @@ public class DeckCommandController {
                 apiModel.getAccountId(),
                 apiModel.getName(),
                 apiModel.getDescription(),
-                apiModel.getCards()
+                apiModel.getCards(),
+                apiModel.getFormat(),
+                apiModel.getFormat()
         ));
         Deck savedDeck;
 
