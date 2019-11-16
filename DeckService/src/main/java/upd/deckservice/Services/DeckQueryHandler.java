@@ -27,6 +27,8 @@ public class DeckQueryHandler {
 
     @QueryHandler
     public Deck handle(FindDeckById query) {
+        System.out.println(query);
+        System.out.println(repository.findDeckById(query.getDeckId()));
        return repository.findDeckById(query.getDeckId());
     }
 }

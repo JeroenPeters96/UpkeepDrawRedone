@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import upd.deckservice.Models.Deck;
+import upd.deckservice.Queries.DecksFromUser;
+import upd.deckservice.Queries.FindDeckById;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -30,8 +32,9 @@ public class DeckQueryController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Deck> getDeckById(@PathVariable String id) {
+        System.out.println(id);
         try {
-            Deck foundDeck = queryGateway.query(getDeckById(id),Deck.class).get();
+            Deck foundDeck = queryGateway.query(new FindDeckById(id),Deck.class).get();
             if(foundDeck!=null) {
                 return new ResponseEntity<>(foundDeck, HttpStatus.OK);
             }
@@ -44,8 +47,9 @@ public class DeckQueryController {
 
     @GetMapping("/user/{id}")
     public ResponseEntity<List<Deck>> getDecksByUser(@PathVariable String id) {
+
         try {
-            List found = queryGateway.query(getDecksByUser(id),List.class).get();
+            List found = queryGateway.query(new DecksFromUser(id),List.class).get();
             List<Deck> foundDecks = found;
 
             if(foundDecks!=null && foundDecks.size() != 0) {

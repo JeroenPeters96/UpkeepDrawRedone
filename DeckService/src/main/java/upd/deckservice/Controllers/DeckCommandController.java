@@ -38,6 +38,7 @@ public class DeckCommandController {
     public ResponseEntity<String> createDeck(@RequestBody CreateDeckApiModel apiModel) {
         String id = UUID.randomUUID().toString();
         String deckId = UUID.randomUUID().toString();
+        System.out.println(apiModel);
         commandGateway.send(new CreateDeck(
                 id,
                 deckId,
@@ -55,13 +56,13 @@ public class DeckCommandController {
                     savedDeck.getAccountId().equals(apiModel.getAccountId()) &&
                     savedDeck.getDeckname().equals(apiModel.getName()) &&
                     savedDeck.getCards().isEmpty()) {
-                return new ResponseEntity<>("Deck creation succesfull", HttpStatus.OK);
+                return new ResponseEntity<>("{ \"deckId\":\""+deckId+" \"}" , HttpStatus.OK);
             }
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
-            return new ResponseEntity<>("Deck creation unsuccesfull", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(createMessage("Deck creation unsuccessful"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>("Deck creation unsuccesfull", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(createMessage("Deck creation unsuccessful"), HttpStatus.NOT_FOUND);
     }
 
 
@@ -87,13 +88,13 @@ public class DeckCommandController {
                     savedDeck.getAccountId().equals(apiModel.getAccountId()) &&
                     savedDeck.getDeckname().equals(apiModel.getName()) &&
                     savedDeck.getCards().equals(apiModel.getCards())) {
-                return new ResponseEntity<>("Deck creation succesfull", HttpStatus.OK);
+                return new ResponseEntity<>("{ \"deckId\":\""+deckId+" \"}", HttpStatus.OK);
             }
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
-            return new ResponseEntity<>("Deck creation unsuccesfull", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(createMessage("Deck creation unsuccessful"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>("Deck creation unsuccesfull", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(createMessage("Deck creation unsuccessful"), HttpStatus.NOT_FOUND);
     }
 
     @PostMapping
@@ -104,11 +105,11 @@ public class DeckCommandController {
         try {
             savedDeck = queryGateway.query(new FindDeckById(apiModel.getDeckId()), Deck.class).get();
             if (savedDeck == null) {
-                return new ResponseEntity<>("Adding cards was unsuccesfull", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(createMessage("Adding cards was unsuccessful"), HttpStatus.BAD_REQUEST);
             }
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
-            return new ResponseEntity<>("Adding cards was unsuccesfull", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(createMessage("Adding cards was unsuccessful"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         commandGateway.send(new AddCard(
@@ -122,13 +123,13 @@ public class DeckCommandController {
         try {
             newSavedDeck = queryGateway.query(new FindDeckById(apiModel.getDeckId()), Deck.class).get();
             if (newSavedDeck.getCards().keySet().containsAll(apiModel.getCards().keySet())) {
-                return new ResponseEntity<>("Adding cards was succesfull", HttpStatus.OK);
+                return new ResponseEntity<>("{ \"message\":\"Adding cards was succesfull\"}", HttpStatus.OK);
             }
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
-            return new ResponseEntity<>("Adding cards was unsuccesfull", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(createMessage("Adding cards was unsuccessful"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>("Adding cards was unsuccesfull", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(createMessage("Adding cards was unsuccessful"), HttpStatus.BAD_REQUEST);
     }
 
     @DeleteMapping("/delete")
@@ -139,24 +140,24 @@ public class DeckCommandController {
         try {
             savedDeck = queryGateway.query(new FindDeckById(apiModel.getDeckId()), Deck.class).get();
             if (savedDeck == null) {
-                return new ResponseEntity<>("Deleting Deck was unsucessful", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(createMessage("Deleting Deck was unsuccessful"), HttpStatus.BAD_REQUEST);
             }
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
-            return new ResponseEntity<>("Deleting Deck was unsucessful", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(createMessage("Deleting Deck was unsuccessful"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         commandGateway.send(new DeleteDeck(id,apiModel.getDeckId()));
         try {
             savedDeck = queryGateway.query(new FindDeckById(apiModel.getDeckId()), Deck.class).get();
             if (savedDeck != null) {
-                return new ResponseEntity<>("Deleting Deck was unsucessful", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(createMessage("Deleting Deck was unsuccessful"), HttpStatus.BAD_REQUEST);
             }
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
-            return new ResponseEntity<>("Deleting Deck was unsucessful", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(createMessage("Deleting Deck was unsuccessful"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>("Deleting deck was succesful", HttpStatus.OK);
+        return new ResponseEntity<>("{ \"message\":\"Deleting deck was successful\"}", HttpStatus.OK);
     }
 
     @PostMapping("/removeCards")
@@ -167,15 +168,15 @@ public class DeckCommandController {
         try {
             savedDeck = queryGateway.query(new FindDeckById(apiModel.getDeckId()), Deck.class).get();
             if (savedDeck == null) {
-                return new ResponseEntity<>("Removing cards was unsucessful", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(createMessage("Removing cards was unsuccessful"), HttpStatus.BAD_REQUEST);
             }
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
-            return new ResponseEntity<>("Removing cards was unsucessful", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(createMessage("Removing cards was unsuccessful"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         commandGateway.send(new RemoveCards(id,apiModel.getDeckId(), apiModel.getCards()));
-        return new ResponseEntity<>("Removing cards was succesfull", HttpStatus.OK);
+        return new ResponseEntity<>("{ \"message\":\"Removing cards was successful\"}", HttpStatus.OK);
     }
 
     @PostMapping("/renameDeck")
@@ -186,15 +187,23 @@ public class DeckCommandController {
         try {
             savedDeck = queryGateway.query(new FindDeckById(apiModel.getDeckId()), Deck.class).get();
             if (savedDeck == null) {
-                return new ResponseEntity<>("Renaming deck was unsucessful", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(createMessage("Renaming deck was unsuccessful"), HttpStatus.BAD_REQUEST);
             }
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
-            return new ResponseEntity<>("Renaming deck was unsucessful", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(createMessage("Renaming deck was unsuccessful"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         commandGateway.send(new RenameDeck(id,apiModel.getDeckId(), apiModel.getNewDeckName()));
-        return new ResponseEntity<>("Renaming deck was succesfull", HttpStatus.OK);
+        return new ResponseEntity<>("{ \"message\":\"Renaming deck was successful\"}", HttpStatus.OK);
+    }
+
+    private String createMessage(String message) {
+        return "{ \"message\":\""+message+"\"}";
+    }
+
+    private String createMessage(String json,String message) {
+        return "{ \""+json+"\":\""+message+"\"}";
     }
 
 }

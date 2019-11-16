@@ -45,8 +45,7 @@ public class AccountCommandController {
         try {
             exsistingAccount = queryGateway.query(new FindAccountByEmail(apiModel.getEmail()), Account.class).get();
             if(exsistingAccount!=null) {
-                System.out.println("already exsists");
-                return new  ResponseEntity<String>("Email already exists",HttpStatus.BAD_REQUEST);
+                return new  ResponseEntity<String>(createMessage("Email already exists"),HttpStatus.BAD_REQUEST);
             }
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
@@ -68,11 +67,11 @@ public class AccountCommandController {
             if (    savedAccount.getEmail().equals(apiModel.getEmail()) &&
                     savedAccount.getUsername().equals(apiModel.getUsername()) &&
                     savedAccount.getPassword().equals(apiModel.getPassword()))
-                return new ResponseEntity<>("Registration successful", HttpStatus.OK);
+                return new ResponseEntity<>(createMessage("Registration successful"), HttpStatus.OK);
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-        return new ResponseEntity<>("Registration unsuccessful", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(createMessage("Registration unsuccessful"), HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/delete")
@@ -129,5 +128,13 @@ public class AccountCommandController {
                         apiModel.getPassword()
                 )
         );
+    }
+
+    private String createMessage(String message) {
+        return "{ \"message\":\""+message+"\"}";
+    }
+
+    private String createMessage(String json,String message) {
+        return "{ \""+json+"\":\""+message+"\"}";
     }
 }
