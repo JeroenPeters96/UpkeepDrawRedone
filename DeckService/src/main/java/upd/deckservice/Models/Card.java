@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "Card")
+@Table(name = "CardID")
 public class Card implements Serializable {
 
     @Id

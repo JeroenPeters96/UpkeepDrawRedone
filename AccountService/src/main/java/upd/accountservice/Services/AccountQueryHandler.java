@@ -32,8 +32,8 @@ public class AccountQueryHandler {
 
     @QueryHandler
     public Account handle(FindAccountById query) {
-        if(repository.findById(query.getId())!=null) {
-            return repository.findById(query.getId());
+        if(repository.findById(query.getId()).isPresent()) {
+            return repository.findById(query.getId()).get();
         }
         return null;
     }

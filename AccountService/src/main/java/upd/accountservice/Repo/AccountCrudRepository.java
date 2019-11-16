@@ -11,5 +11,4 @@ public interface AccountCrudRepository extends CrudRepository<Account,Integer> {
     Account findAccountByEmail(String email);
     Account findAccountByEmailAndPassword(String email, String password);
 
-    Account findById(int id);
 }
