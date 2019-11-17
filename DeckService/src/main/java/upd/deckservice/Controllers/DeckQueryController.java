@@ -28,7 +28,7 @@ public class DeckQueryController {
     private final QueryGateway queryGateway;
 
     @Autowired
-    public DeckQueryController(QueryGateway queryGateway) {
+    public DeckQueryController(@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection") QueryGateway queryGateway) {
         this.queryGateway = queryGateway;
     }
 
@@ -65,13 +65,27 @@ public class DeckQueryController {
     }
 
 
-    @GetMapping("/naem/{name}")
+    @GetMapping("/name/{name}")
     public ResponseEntity<List<Deck>> getLikeDeckName(@PathVariable String name) {
         if(name.equals("")) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         try {
             List<Deck> foundDecks = queryGateway.query(new FindDecksByLikeName(name), ResponseTypes.multipleInstancesOf(Deck.class)).get();
+            if(foundDecks!=null && foundDecks.size() != 0) {
+                return new ResponseEntity<>(foundDecks,HttpStatus.OK);
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/meta")
+    public ResponseEntity<List<Deck>> getMetaDecks() {
+        try {
+            List<Deck> foundDecks = queryGateway.query(new DecksFromUser("1"),ResponseTypes.multipleInstancesOf(Deck.class)).get();
             if(foundDecks!=null && foundDecks.size() != 0) {
                 return new ResponseEntity<>(foundDecks,HttpStatus.OK);
             }
