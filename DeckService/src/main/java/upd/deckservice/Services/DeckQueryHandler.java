@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import upd.deckservice.Models.Deck;
 import upd.deckservice.Queries.DecksFromUser;
 import upd.deckservice.Queries.FindDeckById;
+import upd.deckservice.Queries.FindDecksByLikeName;
 import upd.deckservice.Repo.DeckCrudRepository;
 
 import java.util.List;
@@ -27,8 +28,10 @@ public class DeckQueryHandler {
 
     @QueryHandler
     public Deck handle(FindDeckById query) {
-        System.out.println(query);
-        System.out.println(repository.findDeckById(query.getDeckId()));
        return repository.findDeckById(query.getDeckId());
+    }
+    @QueryHandler
+    public List<Deck> handle(FindDecksByLikeName query) {
+        return repository.findDecksByDecknameContaining(query.getDeckName());
     }
 }

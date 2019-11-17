@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.SwaggerDefinition;
 import io.swagger.annotations.Tag;
 import org.axonframework.queryhandling.QueryGateway;
+import org.axonframework.queryhandling.responsetypes.ResponseTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import upd.deckservice.Models.Deck;
 import upd.deckservice.Queries.DecksFromUser;
 import upd.deckservice.Queries.FindDeckById;
+import upd.deckservice.Queries.FindDecksByLikeName;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -40,9 +42,9 @@ public class DeckQueryController {
             }
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
-            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(null,HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/user/{id}")
@@ -57,9 +59,27 @@ public class DeckQueryController {
             }
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
-            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+
+    @GetMapping("/naem/{name}")
+    public ResponseEntity<List<Deck>> getLikeDeckName(@PathVariable String name) {
+        if(name.equals("")) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        try {
+            List<Deck> foundDecks = queryGateway.query(new FindDecksByLikeName(name), ResponseTypes.multipleInstancesOf(Deck.class)).get();
+            if(foundDecks!=null && foundDecks.size() != 0) {
+                return new ResponseEntity<>(foundDecks,HttpStatus.OK);
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
 }

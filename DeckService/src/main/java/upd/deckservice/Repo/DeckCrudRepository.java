@@ -9,4 +9,5 @@ public interface DeckCrudRepository extends CrudRepository<Deck,String> {
 
     List<Deck> findDecksByAccountId(String accountId);
     Deck findDeckById(String deckId);
+    List<Deck> findDecksByDecknameContaining(String deckName);
 }
