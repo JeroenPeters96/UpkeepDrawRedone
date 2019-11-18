@@ -5,14 +5,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import upd.accountservice.Models.Account;
-
-import javax.persistence.EntityManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")
 @DataJpaTest
+@AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
 class AccountCrudRepositoryTest {
 
 
@@ -40,17 +39,15 @@ class AccountCrudRepositoryTest {
 
     private Account account1;
     private Account account2;
-    private Account account3;
     private List<Account> accountList;
+
     @BeforeEach
    void setup() {
         this.account1 = new Account("test@test.nl","pass","user1");
         this.account2 = new Account("test2@test.nl","password","user2");
-        this.account3 = new Account("test@test.nl","passs","user3");
         accountList = new ArrayList<>();
         accountList.add(account1);
         accountList.add(account2);
-        accountList.add(account3);
     }
 
     @AfterEach
@@ -75,6 +72,7 @@ class AccountCrudRepositoryTest {
 
         assertNotEquals(account2,found);
     }
+
 
     //TODO check email upon api call for registration
 
@@ -160,8 +158,7 @@ class AccountCrudRepositoryTest {
     void findAllTest() {
         repository.save(account1);
         repository.save(account2);
-        repository.save(account3);
-        List<Account> found = null;
+        List<Account> found = new ArrayList<>();
 
         repository.findAll().forEach(e-> found.add(e));
 

@@ -1,7 +1,9 @@
 package upd.deckservice.Controllers.IncomingModels;
 
-import upd.deckservice.Models.Card;
 
+import upd.deckservice.Models.CardModel;
+
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -9,10 +11,10 @@ public class CreateDeckWithCardsApiModel {
     private final String accountId;
     private final String name;
     private final String description;
-    private final Map<Card,Integer> cards;
+    private final List<CardModelApiModel> cards;
     private final String format;
 
-    public CreateDeckWithCardsApiModel(String accountId, String name, String description, Map<Card, Integer> cards, String format) {
+    public CreateDeckWithCardsApiModel(String accountId, String name, String description, List<CardModelApiModel> cards, String format) {
         this.accountId = accountId;
         this.name = name;
         this.description = description;
@@ -32,7 +34,7 @@ public class CreateDeckWithCardsApiModel {
         return description;
     }
 
-    public Map<Card, Integer> getCards() {
+    public List<CardModelApiModel> getCards() {
         return cards;
     }
 

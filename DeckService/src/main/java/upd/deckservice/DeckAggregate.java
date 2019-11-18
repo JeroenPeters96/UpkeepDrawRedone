@@ -72,7 +72,7 @@ public class DeckAggregate {
 
     @EventSourcingHandler
     public void on(DeckDeleted event) {
-        this.id = event.getDeckId();
+        this.id = event.getId();
     }
 
     @CommandHandler
@@ -106,7 +106,7 @@ public class DeckAggregate {
 
     @EventSourcingHandler
     public void on(CardsAdded event) {
-        this.id = event.getDeckId();
+        this.id = event.getId();
     }
 
     @CommandHandler

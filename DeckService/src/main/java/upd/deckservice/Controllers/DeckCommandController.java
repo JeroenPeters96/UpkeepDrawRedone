@@ -11,9 +11,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import upd.deckservice.Commands.*;
 import upd.deckservice.Controllers.IncomingModels.*;
+import upd.deckservice.Models.CardModel;
 import upd.deckservice.Models.Deck;
 import upd.deckservice.Queries.FindDeckById;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
@@ -70,13 +73,20 @@ public class DeckCommandController {
     public ResponseEntity<String> createWithCards(@RequestBody CreateDeckWithCardsApiModel apiModel) {
         String id = UUID.randomUUID().toString();
         String deckId = UUID.randomUUID().toString();
+
+        List<CardModel> cards = new ArrayList<>();
+
+        for(CardModelApiModel card : apiModel.getCards()) {
+            cards.add(new CardModel(UUID.randomUUID().toString(),card.getCardId(),card.getCount()));
+        }
+
         commandGateway.send(new CreateDeckWithCards(
                 id,
                 deckId,
                 apiModel.getAccountId(),
                 apiModel.getName(),
                 apiModel.getDescription(),
-                apiModel.getCards(),
+                cards,
                 apiModel.getFormat(),
                 apiModel.getFormat()
         ));
@@ -100,6 +110,10 @@ public class DeckCommandController {
     @PostMapping
     public ResponseEntity<String> addCardsToDeck(@RequestBody AddCardApiModel apiModel) {
         String id = UUID.randomUUID().toString();
+        System.out.println(apiModel);
+        if(apiModel.getCards()==null ||apiModel.getCards().size()==0) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         Deck savedDeck;
 
         try {
@@ -112,17 +126,23 @@ public class DeckCommandController {
             return new ResponseEntity<>(createMessage("Adding cards was unsuccessful"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
+        List<CardModel> cards = new ArrayList<>();
+
+        for(CardModelApiModel card : apiModel.getCards()) {
+            cards.add(new CardModel(UUID.randomUUID().toString(),card.getCardId(),card.getCount()));
+        }
+
         commandGateway.send(new AddCard(
                 id,
                 apiModel.getDeckId(),
-                apiModel.getCards()
+                cards
         ));
 
         Deck newSavedDeck;
 
         try {
             newSavedDeck = queryGateway.query(new FindDeckById(apiModel.getDeckId()), Deck.class).get();
-            if (newSavedDeck.getCards().keySet().containsAll(apiModel.getCards().keySet())) {
+            if(newSavedDeck!=null) {
                 return new ResponseEntity<>("{ \"message\":\"Adding cards was succesfull\"}", HttpStatus.OK);
             }
         } catch (InterruptedException | ExecutionException e) {
@@ -163,6 +183,11 @@ public class DeckCommandController {
     @PostMapping("/removeCards")
     public ResponseEntity<String> removeCards(@RequestBody RemoveCardsApiModel apiModel) {
         String id = UUID.randomUUID().toString();
+        List<CardModel> cards = new ArrayList<>();
+
+        for(CardModelApiModel card : apiModel.getCards()) {
+            cards.add(new CardModel(UUID.randomUUID().toString(),card.getCardId(),card.getCount()));
+        }
         Deck savedDeck;
 
         try {
@@ -175,7 +200,7 @@ public class DeckCommandController {
             return new ResponseEntity<>(createMessage("Removing cards was unsuccessful"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        commandGateway.send(new RemoveCards(id,apiModel.getDeckId(), apiModel.getCards()));
+        commandGateway.send(new RemoveCards(id,apiModel.getDeckId(), cards));
         return new ResponseEntity<>("{ \"message\":\"Removing cards was successful\"}", HttpStatus.OK);
     }
 

@@ -55,6 +55,36 @@ public class CardQueryController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping("/getSignature")
+    public ResponseEntity<Card> getSignature(@RequestParam List<Integer> cardIds) {
+        if (cardIds == null || cardIds.size() == 0) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        List<Card> cards;
+        try {
+            cards = queryGateway.query(
+                    new GetCardsById(cardIds),ResponseTypes.multipleInstancesOf(Card.class)).get();
+            if (cards.size() != 0) {
+                Card toReturn = null;
+                for(Card card : cards) {
+                    if(toReturn == null)
+                        toReturn = card;
+                    else
+                        if(toReturn.getCmc()<card.getCmc())
+                            toReturn = card;
+
+                }
+                if(toReturn!=null) {
+                    return new ResponseEntity<>(toReturn, HttpStatus.OK);
+                }
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
     @GetMapping("/getCardsByName")
     public ResponseEntity<List<Card>> getCardsByNames(@RequestParam List<String> cardNames) {
         if(cardNames.size()==0) {

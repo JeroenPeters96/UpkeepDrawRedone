@@ -16,6 +16,10 @@ public class DeckQueryHandler {
 
     private final DeckCrudRepository repository;
 
+    public DeckCrudRepository getRepository() {
+        return repository;
+    }
+
     @Autowired
     public DeckQueryHandler(DeckCrudRepository repository) {
         this.repository = repository;

@@ -5,9 +5,7 @@ import upd.deckservice.Events.DeckCreatedWithCards;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "Deck")
@@ -26,19 +24,16 @@ public class Deck implements Serializable {
     @Column(name = "description")
     private String description;
 
-
-    @ElementCollection
-    @CollectionTable(name = "cardsindeck",
-            joinColumns = @JoinColumn(name = "count"))
-    @MapKeyJoinColumn(name = "cartId")
-    @Column(name = "cardsindeck")
-    private Map<Card,Integer> cards = new HashMap<>();
+    @OneToMany(
+            cascade = CascadeType.ALL
+    )
+    private List<CardModel> cards = new ArrayList<>();
 
     private String format;
 
     private String deckArt;
 
-    public Deck(String id, String accountId, String deckname, String description, Map<Card, Integer> cards, String format, String deckArt) {
+    public Deck(String id, String accountId, String deckname, String description, List<CardModel> cards, String format, String deckArt) {
         this.id = id;
         this.accountId = accountId;
         this.deckname = deckname;
@@ -71,7 +66,7 @@ public class Deck implements Serializable {
      this.accountId = event.getAccountId();
      this.deckname = event.getName();
      this.description = event.getDescription();
-     this.cards = new HashMap<>();
+     this.cards = new ArrayList<>();
      this.format = event.getFormat();
      this.deckArt = "";
     }
@@ -84,6 +79,16 @@ public class Deck implements Serializable {
         this.cards = event.getCards();
         this.format = event.getFormat();
         this.deckArt = event.getCardArt();
+    }
+
+    public Deck(Deck deck) {
+        this.id = deck.getId();
+        this.accountId = deck.getAccountId();
+        this.deckname = deck.getDeckname();
+        this.description = deck.getDescription();
+        this.cards = deck.getCards();
+        this.format = deck.getFormat();
+        this.deckArt = deck.getDeckArt();
     }
 
     public Deck() {
@@ -121,11 +126,11 @@ public class Deck implements Serializable {
         this.description = description;
     }
 
-    public Map<Card, Integer> getCards() {
+    public List<CardModel> getCards() {
         return cards;
     }
 
-    public void setCards(Map<Card, Integer> cards) {
+    public void setCards(List<CardModel> cards) {
         this.cards = cards;
     }
 

@@ -1,11 +1,17 @@
 package upd.accountservice.Services;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
 import upd.accountservice.Events.*;
 import upd.accountservice.Models.Account;
 import upd.accountservice.Repo.AccountCrudRepository;
@@ -17,6 +23,10 @@ import java.util.Optional;
 import static org.mockito.BDDMockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+@RunWith(SpringRunner.class)
+@ActiveProfiles("test")
+@DataJpaTest
+@AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
 class AccountEventHandlerTest {
 
     @Mock
@@ -43,6 +53,7 @@ class AccountEventHandlerTest {
         accountList.add(account2);
         accountList.add(account3);
     }
+
 
     @Test
     void injectNotNull() {

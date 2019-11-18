@@ -6,9 +6,12 @@ import org.axonframework.eventhandling.EventHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import upd.deckservice.Events.*;
-import upd.deckservice.Models.Card;
+import upd.deckservice.Models.CardModel;
 import upd.deckservice.Models.Deck;
 import upd.deckservice.Repo.DeckCrudRepository;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class DeckEventHandler {
@@ -18,6 +21,10 @@ public class DeckEventHandler {
     @Autowired
     public DeckEventHandler(final DeckCrudRepository repository) {
         this.repository = repository;
+    }
+
+    public DeckCrudRepository getRepository() {
+        return repository;
     }
 
     @EventHandler
@@ -48,24 +55,55 @@ public class DeckEventHandler {
 
     @EventHandler
     public void on(CardsAdded event) {
-        Deck deck = repository.findDeckById(event.getDeckId());
-        if(deck!=null) {
-            Maps.difference(event.getCards(),deck.getCards()).entriesOnlyOnLeft().putAll(deck.getCards());
+        boolean cont = false;
+        int counter = 0;
+        if(repository.findById(event.getDeckId()).isPresent()) {
+        Deck deck = repository.findById(event.getDeckId()).get();
+        Deck tempDeck = new Deck(deck);
+            for(CardModel cardId : event.getCards()) {
+
+                for(CardModel card : tempDeck.getCards()) {
+
+                    if(card.getCardId().equals(cardId.getCardId())) {
+                        deck.getCards().get(counter).setCount(deck.getCards().get(counter).getCount()+cardId.getCount());
+                        cont=true;
+                        break;
+                    }
+                    counter++;
+                }
+                if(!cont) {
+                    deck.getCards().add(cardId);
+                    cont=false;
+                }
+                counter = 0;
+            }
+            repository.save(deck);
         }
-        repository.save(deck);
     }
 
     @EventHandler
     public void on(CardsRemoved event) {
-        Deck deck = repository.findDeckById(event.getDeckId());
-        if(deck!=null) {
-            for(Card card : deck.getCards().keySet()) {
-                if(event.getCards().containsKey(card)) {
-                    deck.getCards().replace(card,deck.getCards().get(card));
+        int counter = 0;
+        if(repository.findById(event.getDeckId()).isPresent()) {
+            Deck deck = repository.findById(event.getDeckId()).get();
+            Deck tempDeck = new Deck(deck);
+            for(CardModel cardId : event.getCards()) {
+
+                for(CardModel card : tempDeck.getCards()) {
+
+                    if(card.getCardId().equals(cardId.getCardId())) {
+                        deck.getCards().get(counter).setCount(deck.getCards().get(counter).getCount()-cardId.getCount());
+                        if (deck.getCards().get(counter).getCount()<=0) {
+                            deck.getCards().remove(counter);
+                        }
+                        break;
+                    }
+                    counter++;
                 }
+                counter = 0;
             }
+            repository.save(deck);
         }
-        repository.save(deck);
     }
 
     @EventHandler

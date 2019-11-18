@@ -1,20 +1,21 @@
 package upd.deckservice.Controllers.IncomingModels;
 
-import upd.deckservice.Models.Card;
+import upd.deckservice.Models.CardModel;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 public class AddCardApiModel {
-    private final Map<Card,Integer> cards;
+    private final List<CardModelApiModel> cards;
     private final String deckId;
 
-    public AddCardApiModel(Map<Card,Integer> cardId, String deckId) {
+    public AddCardApiModel(List<CardModelApiModel> cardId, String deckId) {
         this.cards = cardId;
         this.deckId = deckId;
     }
 
-    public Map<Card,Integer> getCards() {
+    public List<CardModelApiModel> getCards() {
         return cards;
     }
 

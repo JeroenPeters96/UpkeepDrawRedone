@@ -31,6 +31,14 @@ public class AccountCommandController {
     private final CommandGateway commandGateway;
     private final QueryGateway queryGateway;
 
+    public CommandGateway getCommandGateway() {
+        return commandGateway;
+    }
+
+    public QueryGateway getQueryGateway() {
+        return queryGateway;
+    }
+
     @Autowired
     public AccountCommandController(final CommandGateway commandGateway, @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection") final QueryGateway queryGateway) {
         this.commandGateway = commandGateway;
