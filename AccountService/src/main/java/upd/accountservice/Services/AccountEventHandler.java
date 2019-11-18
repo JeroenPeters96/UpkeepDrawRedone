@@ -19,6 +19,10 @@ public class AccountEventHandler {
         this.repository = repository;
     }
 
+    public AccountCrudRepository getRepository() {
+        return repository;
+    }
+
     @EventHandler
     public void on(AccountCreated event){
         Account existing = repository.findAccountByEmail(event.getEmail());

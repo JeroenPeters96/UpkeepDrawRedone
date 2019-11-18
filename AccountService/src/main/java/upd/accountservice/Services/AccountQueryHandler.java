@@ -22,6 +22,9 @@ public class AccountQueryHandler {
     @Autowired
     public AccountQueryHandler(AccountCrudRepository repository) { this.repository = repository; }
 
+    public AccountCrudRepository getRepository() {
+        return repository;
+    }
 
     @QueryHandler
     public List<Account> handle(FindAllAccounts query) {
