@@ -16,6 +16,7 @@
         <module>EdhrecService</module>
         <module>IntergrationTest</module>
         <module>DiscoveryService</module>
+        <module>CollectionService</module>
     </modules>
 
 

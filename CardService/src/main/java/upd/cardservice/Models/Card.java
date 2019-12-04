@@ -27,6 +27,7 @@ public class Card implements Serializable {
 
     private String setId;
 
+    @Lob
     private String text;
 
     private String imageUrl;

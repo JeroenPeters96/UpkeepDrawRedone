@@ -21,6 +21,7 @@ public class Deck implements Serializable {
     @Column(name = "deckname",nullable = false)
     private String deckname;
 
+    @Lob
     @Column(name = "description")
     private String description;
 

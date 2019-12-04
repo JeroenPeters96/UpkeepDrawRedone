@@ -90,7 +90,6 @@ public class CardQueryController {
         if(cardNames.size()==0) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        System.out.println(cardNames);
         List<Card> cards;
         try {
             cards = queryGateway.query(
