@@ -29,24 +29,24 @@ public class CardQueryHandler {
 
     @QueryHandler
     public Card handle(GetCardByName query) {
-       Card card = repository.findCardByCardname(query.getCardName());
-       if(card==null) {
-           card = apiService.findCard(query.getCardName());
-           System.out.println(card);
-           if(card==null) {
-               return new Card();
-           }
-           repository.save(card);
-       }
-       return card;
+        Card card = repository.findCardByCardname(query.getCardName());
+        if (card == null) {
+            card = apiService.findCard(query.getCardName());
+            System.out.println(card);
+            if (card == null) {
+                return new Card();
+            }
+            repository.save(card);
+        }
+        return card;
     }
 
     @QueryHandler
     public List<Card> handle(GetCardsById query) {
         List<Card> cardList = new ArrayList<>();
-        for(Integer cardId : query.getCardIdList()) {
-            if(repository.findById(cardId).isPresent())
-            cardList.add(repository.findById(cardId).get());
+        for (Integer cardId : query.getCardIdList()) {
+            if (repository.findById(cardId).isPresent())
+                cardList.add(repository.findById(cardId).get());
         }
         return cardList;
     }
@@ -64,7 +64,51 @@ public class CardQueryHandler {
 
     @QueryHandler
     public List<Card> handle(GetCardsByName query) {
-        return apiService.getCardsByName(query.getCardNames());
+        List<String> cardNames = query.getCardNames();
+        List<String> rest = new ArrayList<>(cardNames);
+        List<Card> cards = new ArrayList<>();
+        System.out.println(cardNames);
+        for (String cardName : cardNames) {
+            if (repository.findCardByCardname(cardName) != null) {
+                System.out.println("found "+cardName);
+                cards.add(repository.findCardByCardname(cardName));
+                rest.remove(cardName);
+            }
+        }
+        if (rest.size() != 0) {
+            List<Card> newCards = apiService.getCardsByName(rest);
+            if (newCards != null) {
+                for (Card newCard : newCards) {
+                    repository.save(newCard);
+                    cards.add(newCard);
+                }
+            }
+        }
+        return cards;
+    }
+
+    @QueryHandler
+    public List<Card> handle(GetCardsLikeName query) {
+        List<String> cardNames = apiService.autocompleteCall(query.getCardName());
+        if (cardNames != null && cardNames.size() > 0) {
+            List<Card> cards = new ArrayList<>();
+            for (String cardName : cardNames) {
+                Card card = repository.findCardByCardname(cardName);
+                //cards.add(card);
+                if (card == null) {
+                    card = apiService.findCard(cardName);
+                    if (card.getText().length() > 200) {
+                        card = null;
+                    }
+                    if (card != null) {
+                        repository.save(card);
+                        cards.add(card);
+                    }
+                }
+            }
+            return cards;
+        }
+        return new ArrayList<>();
     }
 
 }

@@ -11,10 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import upd.cardservice.Models.Card;
-import upd.cardservice.Queries.GetAutocomplete;
-import upd.cardservice.Queries.GetCardByName;
-import upd.cardservice.Queries.GetCardsById;
-import upd.cardservice.Queries.GetCardsByName;
+import upd.cardservice.Queries.*;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -120,6 +117,25 @@ public class CardQueryController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    @GetMapping("/getLikeName/{name}")
+    public ResponseEntity<List<Card>> getLikeName(@PathVariable String name) {
+        if(name.equals("")) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        List<Card> cards;
+        try {
+            cards = queryGateway.query(
+                    new GetCardsLikeName(name), ResponseTypes.multipleInstancesOf(Card.class)).get();
+            if(cards.size()!=0)
+                return new ResponseEntity<>(cards,HttpStatus.OK);
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
 
     @GetMapping("/name/{name}")
     public ResponseEntity<Card> getCardByName(@PathVariable String name) {

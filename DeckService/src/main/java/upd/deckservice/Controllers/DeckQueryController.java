@@ -51,9 +51,9 @@ public class DeckQueryController {
     public ResponseEntity<List<Deck>> getDecksByUser(@PathVariable String id) {
 
         try {
-            List found = queryGateway.query(new DecksFromUser(id),List.class).get();
+            List found = queryGateway.query(new DecksFromUser(id),ResponseTypes.multipleInstancesOf(Deck.class)).get();
             List<Deck> foundDecks = found;
-
+            System.out.println(foundDecks);
             if(foundDecks!=null && foundDecks.size() != 0) {
                 return new ResponseEntity<>(foundDecks,HttpStatus.OK);
             }

@@ -205,7 +205,7 @@ public class DeckCommandController {
     }
 
     @PostMapping("/renameDeck")
-    public ResponseEntity<String> renameDeck(@RequestBody RenameDeck apiModel) {
+    public ResponseEntity<String> renameDeck(@RequestBody RenameDeckApiModel apiModel) {
         String id = UUID.randomUUID().toString();
         Deck savedDeck;
 

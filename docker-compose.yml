@@ -27,11 +27,14 @@ services:
       dockerfile: Dockerfile
     ports:
       - 8082:8080
-      -
     depends_on:
       - mysql
       - mongodbcard
       - kafka
+#  edhrecservice:
+#
+#  priceservice:
+
 
 #Messaging queue to facilitate messages between services
   zookeeper:
@@ -46,43 +49,9 @@ services:
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
     depends_on:
       - zookeeper
+
+
 #MySql databases used in the services
-#  mysqlaccount:
-#    image: mysql:5.7
-#    restart: always
-#    environment:
-#      MYSQL_DATABASE: db
-#      MYSQL_USER: user
-#      MYSQL_PASSWORD: pass
-#      MYSQL_ROOT_PASSWORD: password
-#    ports:
-#     - 3306:3306
-#    volumes:
-#     - mysqlacc:/var/lib/mysql
-#  mysqlcard:
-#    image: mysql:5.7
-#    restart: always
-#    environment:
-#      MYSQL_DATABASE: db
-#      MYSQL_USER: user
-#      MYSQL_PASSWORD: pass
-#      MYSQL_ROOT_PASSWORD: password
-#    ports:
-#      - 3307:3306
-#    volumes:
-#      - mysqlcard:/var/lib/mysql
-#  mysqldeck:
-#    image: mysql:5.7
-#    restart: always
-#    environment:
-#      MYSQL_DATABASE: db
-#      MYSQL_USER: user
-#      MYSQL_PASSWORD: pass
-#      MYSQL_ROOT_PASSWORD: password
-#    ports:
-#      - 3308:3306
-#    volumes:
-#      - mysqldeck:/var/lib/mysql
   mysql:
     image: mysql:5.7
     restart: always
@@ -95,6 +64,7 @@ services:
       - 3308:3306
     volumes:
       - mysql:/var/lib/mysql
+
 #Mongo databaes used in the eventstore's of the different services
   mongodbacc:
     image: mongo:3.2.4
@@ -173,8 +143,10 @@ volumes:
 
   mongoacc-config:
   mongodbaccdata:
+
   mongodeck-config:
   mongodbdeckdata:
+
   mongocard-config:
   mongocarddata:
 
