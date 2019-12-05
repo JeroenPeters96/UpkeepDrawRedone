@@ -40,7 +40,6 @@ public class CardApiService {
 
         try {
             JsonNode jsonObj = mapper.readTree(response);
-            System.out.println(jsonObj.get("data"));
             ArrayList<String> data= mapper.convertValue(jsonObj.get("data"),ArrayList.class);
             if(data!=null) {
                 return data;
@@ -60,7 +59,6 @@ public class CardApiService {
     public Card findCard(String cardName) {
       String url = baseUrl+"/cards/named?exact="+cardName;
       String response = sendGet(url);
-        System.out.println(response);
       if(response==null) {
           return new Card();
       }
@@ -68,13 +66,13 @@ public class CardApiService {
       if(card==null||card.size()==0) {
           return new Card();
       }
-        System.out.println(card);
       return card.get(0);
     }
 
+
+
     public List<Card> getCardsByName(List<String> cardNames) {
         List<Card> cards = new ArrayList<>();
-        System.out.println(cardNames);
         if(cardNames.size()>74) {
             List<List<String>> smallerList = new ArrayList<>();
             int times = (int) Math.ceil((double) cardNames.size()/70);
@@ -105,10 +103,8 @@ public class CardApiService {
         Request request = new Request.Builder()
                 .url(url)
                 .build();
-        System.out.println(request);
 
         try (Response response = httpClient.newCall(request).execute()) {
-            System.out.println(response);
             return response.body().string();
         } catch (IOException e) {
             e.printStackTrace();
@@ -125,7 +121,6 @@ public class CardApiService {
         for(String id : identifiers) {
             JsonNode idNode = mapper.createObjectNode();
             ((ObjectNode) idNode).put("name",id);
-            System.out.println(idNode);
             identifiersNode.add(idNode);
         }
 
@@ -173,6 +168,13 @@ public class CardApiService {
 
             card.setImageUrl(mapper.convertValue(artNode.get("normal"),String.class));
             card.setArtUrl(mapper.convertValue(artNode.get("art_crop"),String.class));
+
+            JsonNode priceNode = jsonObj.get("prices");
+            if(mapper.convertValue(priceNode.get("eur"),String.class)!=null) {
+                card.setPrice(Double.parseDouble(mapper.convertValue(priceNode.get("eur"),String.class)));
+            } else {
+                card.setPrice(0.00);
+            }
 
             List<Card> cardList = new ArrayList<>();
            cardList.add(card);

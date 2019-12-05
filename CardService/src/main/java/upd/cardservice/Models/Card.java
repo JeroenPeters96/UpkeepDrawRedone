@@ -36,10 +36,12 @@ public class Card implements Serializable {
 
     private String manaCost;
 
+    private double price;
+
     public Card() {
     }
 
-    public Card(String cardname, int cmc, List<String> colors, String type, String setName, String setId, String text, String imageUrl, String artUrl, String manaCost) {
+    public Card(String cardname, int cmc, List<String> colors, String type, String setName, String setId, String text, String imageUrl, String artUrl, String manaCost, double price) {
         this.cardname = cardname;
         this.cmc = cmc;
         this.colors = colors;
@@ -140,10 +142,18 @@ public class Card implements Serializable {
         this.manaCost = manaCost;
     }
 
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
     @Override
     public String toString() {
         return "Card{" +
-                "id='" + id + '\'' +
+                "id=" + id +
                 ", cardname='" + cardname + '\'' +
                 ", cmc=" + cmc +
                 ", colors=" + colors +
@@ -154,29 +164,31 @@ public class Card implements Serializable {
                 ", imageUrl='" + imageUrl + '\'' +
                 ", artUrl='" + artUrl + '\'' +
                 ", manaCost='" + manaCost + '\'' +
+                ", price=" + price +
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Card)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Card card = (Card) o;
-        return cmc == card.cmc &&
-                Objects.equals(id, card.id) &&
-                Objects.equals(cardname, card.cardname) &&
-                Objects.equals(colors, card.colors) &&
-                Objects.equals(type, card.type) &&
-                Objects.equals(setName, card.setName) &&
-                Objects.equals(setId, card.setId) &&
-                Objects.equals(text, card.text) &&
-                Objects.equals(imageUrl, card.imageUrl) &&
-                Objects.equals(artUrl, card.artUrl) &&
-                Objects.equals(manaCost, card.manaCost);
+        return getId() == card.getId() &&
+                getCmc() == card.getCmc() &&
+                Double.compare(card.getPrice(), getPrice()) == 0 &&
+                Objects.equals(getCardname(), card.getCardname()) &&
+                Objects.equals(getColors(), card.getColors()) &&
+                Objects.equals(getType(), card.getType()) &&
+                Objects.equals(getSetName(), card.getSetName()) &&
+                Objects.equals(getSetId(), card.getSetId()) &&
+                Objects.equals(getText(), card.getText()) &&
+                Objects.equals(getImageUrl(), card.getImageUrl()) &&
+                Objects.equals(getArtUrl(), card.getArtUrl()) &&
+                Objects.equals(getManaCost(), card.getManaCost());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, cardname, cmc, colors, type, setName, setId, text, imageUrl, artUrl, manaCost);
+        return Objects.hash(getId(), getCardname(), getCmc(), getColors(), getType(), getSetName(), getSetId(), getText(), getImageUrl(), getArtUrl(), getManaCost(), getPrice());
     }
 }

@@ -59,7 +59,7 @@ public class DeckCommandController {
                     savedDeck.getAccountId().equals(apiModel.getAccountId()) &&
                     savedDeck.getDeckname().equals(apiModel.getName()) &&
                     savedDeck.getCards().isEmpty()) {
-                return new ResponseEntity<>("{ \"deckId\":\""+deckId+" \"}" , HttpStatus.OK);
+                return new ResponseEntity<>("{ \"deckId\":\""+deckId+"\"}" , HttpStatus.OK);
             }
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
@@ -69,7 +69,7 @@ public class DeckCommandController {
     }
 
 
-    @PostMapping("/createCards")
+    @PostMapping("/copy")
     public ResponseEntity<String> createWithCards(@RequestBody CreateDeckWithCardsApiModel apiModel) {
         String id = UUID.randomUUID().toString();
         String deckId = UUID.randomUUID().toString();

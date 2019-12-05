@@ -85,7 +85,7 @@ public class DeckQueryController {
     @GetMapping("/meta")
     public ResponseEntity<List<Deck>> getMetaDecks() {
         try {
-            List<Deck> foundDecks = queryGateway.query(new DecksFromUser("1"),ResponseTypes.multipleInstancesOf(Deck.class)).get();
+            List<Deck> foundDecks = queryGateway.query(new DecksFromUser("6969"),ResponseTypes.multipleInstancesOf(Deck.class)).get();
             if(foundDecks!=null && foundDecks.size() != 0) {
                 return new ResponseEntity<>(foundDecks,HttpStatus.OK);
             }

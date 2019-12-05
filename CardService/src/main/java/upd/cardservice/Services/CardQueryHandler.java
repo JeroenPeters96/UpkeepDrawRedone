@@ -97,13 +97,12 @@ public class CardQueryHandler {
                 //cards.add(card);
                 if (card == null) {
                     card = apiService.findCard(cardName);
-                    if (card.getText().length() > 200) {
-                        card = null;
-                    }
                     if (card != null) {
                         repository.save(card);
                         cards.add(card);
                     }
+                } else {
+                    cards.add(card);
                 }
             }
             return cards;
