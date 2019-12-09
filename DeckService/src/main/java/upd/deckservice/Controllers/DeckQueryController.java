@@ -19,9 +19,9 @@ import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("/qry")
-@Api(value = "/qry",tags = {"Account upd.edhrecservice.Queries"})
+@Api(value = "/qry",tags = {"Account upd.edhrecservice.upd.collectionservice.Queries"})
 @SwaggerDefinition( tags = {
-        @Tag(name = "Deck upd.edhrecservice.Queries",description = "Deck related functionalities")
+        @Tag(name = "Deck upd.edhrecservice.upd.collectionservice.Queries",description = "Deck related functionalities")
 })
 public class DeckQueryController {
 

@@ -1,4 +1,4 @@
-//package upd.cardservice.Config;
+//package upd.cardservice.upd.collectionservice.Config;
 //
 //import org.apache.kafka.clients.admin.NewTopic;
 //import org.apache.kafka.clients.producer.ProducerConfig;

@@ -1,4 +1,4 @@
-//package upd.cardservice.Controllers;
+//package upd.cardservice.upd.collectionservice.Controllers;
 //
 //import org.junit.jupiter.api.Test;
 //import org.junit.runner.RunWith;

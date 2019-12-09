@@ -1,4 +1,4 @@
-//package upd.accountservice.Controllers;
+//package upd.accountservice.upd.collectionservice.Controllers;
 //
 //import org.axonframework.commandhandling.gateway.CommandGateway;
 //import org.axonframework.queryhandling.QueryGateway;
@@ -23,9 +23,9 @@
 //import org.springframework.test.context.junit.jupiter.SpringExtension;
 //import org.springframework.test.context.junit4.SpringRunner;
 //import org.springframework.test.web.servlet.MockMvc;
-//import upd.accountservice.Controllers.IncomingModels.RegisterApiModel;
-//import upd.accountservice.Models.Account;
-//import upd.accountservice.Queries.FindAccountById;
+//import upd.accountservice.upd.collectionservice.Controllers.IncomingModels.RegisterApiModel;
+//import upd.accountservice.upd.collectionservice.Models.Account;
+//import upd.accountservice.upd.collectionservice.Queries.FindAccountById;
 //
 //import javax.persistence.EntityManager;
 //import java.util.ArrayList;

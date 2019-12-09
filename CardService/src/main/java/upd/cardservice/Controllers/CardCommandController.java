@@ -15,9 +15,9 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/cmd")
-@Api(value = "/cmd",tags = {"Card Commands"})
+@Api(value = "/cmd",tags = {"Card upd.collectionservice.Commands"})
 @SwaggerDefinition( tags = {
-        @Tag(name = "Card Commands",description = "Card related functionalities")
+        @Tag(name = "Card upd.collectionservice.Commands",description = "Card related functionalities")
 })
 public class CardCommandController {
     private final CommandGateway commandGateway;

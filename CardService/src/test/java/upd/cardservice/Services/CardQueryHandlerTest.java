@@ -1,12 +1,12 @@
-//package upd.cardservice.Services;
+//package upd.cardservice.upd.collectionservice.Services;
 //
 //import org.junit.jupiter.api.Test;
 //import org.mockito.InjectMocks;
 //import org.springframework.boot.test.context.SpringBootTest;
 //import org.springframework.boot.test.mock.mockito.MockBean;
 //import org.springframework.test.context.ActiveProfiles;
-//import upd.cardservice.Models.Card;
-//import upd.cardservice.Repo.CardCrudRepository;
+//import upd.cardservice.upd.collectionservice.Models.Card;
+//import upd.cardservice.upd.collectionservice.Repo.CardCrudRepository;
 //
 //import java.util.Optional;
 //

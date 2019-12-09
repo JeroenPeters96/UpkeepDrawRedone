@@ -1,4 +1,4 @@
-//package upd.deckservice.Config;
+//package upd.deckservice.upd.collectionservice.Config;
 //
 //import org.apache.kafka.clients.admin.NewTopic;
 //import org.apache.kafka.clients.producer.ProducerConfig;

@@ -21,9 +21,9 @@ import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("/cmd")
-@Api(value = "/cmd",tags = {"Account Commands"})
+@Api(value = "/cmd",tags = {"Account upd.collectionservice.Commands"})
 @SwaggerDefinition( tags = {
-        @Tag(name = "Account Commands",description = "Account related functionalities")
+        @Tag(name = "Account upd.collectionservice.Commands",description = "Account related functionalities")
 })
 
 public class AccountCommandController {

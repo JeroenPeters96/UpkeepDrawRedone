@@ -1,6 +1,6 @@
 version: "3"
 services:
-# Services build for the project
+# upd.collectionservice.Services build for the project
   deckservice:
     build:
       context: DeckService/
@@ -30,6 +30,17 @@ services:
     depends_on:
       - mysql
       - mongodbcard
+      - kafka
+
+  collectionservice:
+    build:
+      context: CollectionService/
+      dockerfile: Dockerfile
+    ports:
+      - 8083:8080
+    depends_on:
+      - mysql
+      - mongodbcoll
       - kafka
 #  edhrecservice:
 #
@@ -66,6 +77,16 @@ services:
       - mysql:/var/lib/mysql
 
 #Mongo databaes used in the eventstore's of the different services
+  mongodbcoll:
+    image: mongo:3.2.4
+    container_name: "mongodbacc"
+    ports:
+      - 27020:27017
+    command: --smallfiles
+    volumes:
+      - mongodbcolldata:/data/db
+      - mongocoll-config:/data/configdb
+
   mongodbacc:
     image: mongo:3.2.4
     container_name: "mongodbacc"
@@ -149,6 +170,10 @@ volumes:
 
   mongocard-config:
   mongocarddata:
+
+  mongocoll-config:
+  mongodbcolldata:
+
 
   mysqltest:
   mdbtest-data:

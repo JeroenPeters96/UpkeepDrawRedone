@@ -18,9 +18,9 @@ import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("/cardqry")
-@Api(value = "/qry",tags = {"Card Queries"})
+@Api(value = "/qry",tags = {"Card upd.collectionservice.Queries"})
 @SwaggerDefinition( tags = {
-        @Tag(name = "Card Queries",description = "Card related functionalities")
+        @Tag(name = "Card upd.collectionservice.Queries",description = "Card related functionalities")
 })
 
 public class CardQueryController {

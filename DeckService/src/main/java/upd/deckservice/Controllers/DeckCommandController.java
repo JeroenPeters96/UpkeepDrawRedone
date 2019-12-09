@@ -22,9 +22,9 @@ import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("/cmd")
-@Api(value = "/cmd",tags = {"Account Commands"})
+@Api(value = "/cmd",tags = {"Account upd.collectionservice.Commands"})
 @SwaggerDefinition( tags = {
-        @Tag(name = "Deck Commands",description = "Deck related functionalities")
+        @Tag(name = "Deck upd.collectionservice.Commands",description = "Deck related functionalities")
 })
 @SuppressWarnings("Duplicates")
 public class DeckCommandController {

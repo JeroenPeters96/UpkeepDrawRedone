@@ -11,7 +11,7 @@ import java.util.Objects;
 public class Card implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String cardname;
