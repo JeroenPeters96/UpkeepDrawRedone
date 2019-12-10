@@ -3,10 +3,12 @@ package upd.deckservice.Controllers.IncomingModels;
 import java.util.Objects;
 
 public class CreateDeckApiModel {
-    private final String accountId;
-    private final String name;
-    private final String description;
-    private final String format;
+    private  String accountId;
+    private  String name;
+    private  String description;
+    private  String format;
+
+    public CreateDeckApiModel() {}
 
     public CreateDeckApiModel(String accountId, String name, String description, String format) {
         this.accountId = accountId;

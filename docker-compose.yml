@@ -79,7 +79,7 @@ services:
 #Mongo databaes used in the eventstore's of the different services
   mongodbcoll:
     image: mongo:3.2.4
-    container_name: "mongodbacc"
+    container_name: "mongodbcoll"
     ports:
       - 27020:27017
     command: --smallfiles

@@ -39,6 +39,7 @@ public class DeckEventHandler {
 
     @EventHandler
     public void on(DeckDeleted event) {
+        System.out.println(event);
         if(repository.findById(event.getDeckId()).isPresent()) {
             repository.delete(repository.findById(event.getDeckId()).get());
         }

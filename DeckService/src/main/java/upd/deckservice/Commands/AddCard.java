@@ -10,9 +10,12 @@ import java.util.Objects;
 public class AddCard {
 
     @TargetAggregateIdentifier
-    private final String id;
-    private final String deckId;
-    private final List<CardModel> cards;
+    private String id;
+    private String deckId;
+    private List<CardModel> cards;
+
+    public AddCard() {
+    }
 
     public AddCard(String id, String deckId, List<CardModel> cards) {
         this.id = id;

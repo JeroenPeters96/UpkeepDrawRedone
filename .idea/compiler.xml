@@ -10,17 +10,17 @@
         <module name="collectionservice" />
         <module name="deckservice" />
         <module name="McmService" />
-        <module name="edhrecservice" />
         <module name="EdhrecService" />
         <module name="IntergrationTest" />
         <module name="cardservice" />
         <module name="intergrationtest" />
         <module name="accountservice" />
         <module name="discoveryservice" />
+        <module name="CardService" />
         <module name="AccountService" />
         <module name="mcmservice" />
         <module name="CollectionService" />
-        <module name="CardService" />
+        <module name="edhrecservice" />
       </profile>
     </annotationProcessing>
   </component>

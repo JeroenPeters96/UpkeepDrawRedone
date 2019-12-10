@@ -152,13 +152,14 @@ public class DeckCommandController {
         return new ResponseEntity<>(createMessage("Adding cards was unsuccessful"), HttpStatus.BAD_REQUEST);
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<String> delete(@RequestBody DeleteDeckApiModel apiModel) {
+    @DeleteMapping("/delete/{deckId}")
+    public ResponseEntity<String> delete(@PathVariable String deckId) {
+        System.out.println(deckId);
         String id = UUID.randomUUID().toString();
         Deck savedDeck;
 
         try {
-            savedDeck = queryGateway.query(new FindDeckById(apiModel.getDeckId()), Deck.class).get();
+            savedDeck = queryGateway.query(new FindDeckById(deckId), Deck.class).get();
             if (savedDeck == null) {
                 return new ResponseEntity<>(createMessage("Deleting Deck was unsuccessful"), HttpStatus.BAD_REQUEST);
             }
@@ -167,9 +168,9 @@ public class DeckCommandController {
             return new ResponseEntity<>(createMessage("Deleting Deck was unsuccessful"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        commandGateway.send(new DeleteDeck(id,apiModel.getDeckId()));
+        commandGateway.send(new DeleteDeck(id,deckId));
         try {
-            savedDeck = queryGateway.query(new FindDeckById(apiModel.getDeckId()), Deck.class).get();
+            savedDeck = queryGateway.query(new FindDeckById(deckId), Deck.class).get();
             if (savedDeck != null) {
                 return new ResponseEntity<>(createMessage("Deleting Deck was unsuccessful"), HttpStatus.BAD_REQUEST);
             }
@@ -204,13 +205,13 @@ public class DeckCommandController {
         return new ResponseEntity<>("{ \"message\":\"Removing cards was successful\"}", HttpStatus.OK);
     }
 
-    @PostMapping("/renameDeck")
-    public ResponseEntity<String> renameDeck(@RequestBody RenameDeckApiModel apiModel) {
+    @PostMapping("/renameDeck/{deckId}/{newName}")
+    public ResponseEntity<String> renameDeck(@PathVariable String deckId, @PathVariable String newName) {
         String id = UUID.randomUUID().toString();
         Deck savedDeck;
 
         try {
-            savedDeck = queryGateway.query(new FindDeckById(apiModel.getDeckId()), Deck.class).get();
+            savedDeck = queryGateway.query(new FindDeckById(deckId), Deck.class).get();
             if (savedDeck == null) {
                 return new ResponseEntity<>(createMessage("Renaming deck was unsuccessful"), HttpStatus.BAD_REQUEST);
             }
@@ -219,8 +220,46 @@ public class DeckCommandController {
             return new ResponseEntity<>(createMessage("Renaming deck was unsuccessful"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        commandGateway.send(new RenameDeck(id,apiModel.getDeckId(), apiModel.getNewDeckName()));
+        commandGateway.send(new RenameDeck(id,deckId,newName));
         return new ResponseEntity<>("{ \"message\":\"Renaming deck was successful\"}", HttpStatus.OK);
+    }
+
+    @PostMapping("/setFormat/{deckId}/{format}")
+    public ResponseEntity<String> setFormat(@PathVariable String deckId, @PathVariable String format) {
+        String id = UUID.randomUUID().toString();
+        Deck savedDeck;
+
+        try {
+            savedDeck = queryGateway.query(new FindDeckById(deckId),Deck.class).get();
+            if(savedDeck == null) {
+                return new ResponseEntity<>(createMessage("Changing format was unsuccessful"), HttpStatus.BAD_REQUEST);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        commandGateway.send(new ChangeFormat(id,deckId, format));
+        return new ResponseEntity<>(createMessage("Changing the format was successfull"),HttpStatus.OK);
+    }
+
+    @PostMapping("/setArt/{deckId}/{cardId}")
+    public ResponseEntity<String> setArt(@PathVariable String deckId, @PathVariable String cardId) {
+        String id = UUID.randomUUID().toString();
+        Deck savedDeck;
+
+        try {
+            savedDeck = queryGateway.query(new FindDeckById(deckId),Deck.class).get();
+            if(savedDeck == null) {
+                return new ResponseEntity<>(createMessage("Changing art was unsuccessful"), HttpStatus.BAD_REQUEST);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        commandGateway.send(new SetCardArt(id,deckId,cardId));
+        return new ResponseEntity<>(createMessage("Changing art was successful"),HttpStatus.OK);
     }
 
     private String createMessage(String message) {

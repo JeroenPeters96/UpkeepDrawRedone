@@ -7,8 +7,11 @@ import java.util.Map;
 import java.util.Objects;
 
 public class AddCardApiModel {
-    private final List<CardModelApiModel> cards;
-    private final String deckId;
+    private List<CardModelApiModel> cards;
+    private String deckId;
+
+    public AddCardApiModel() {
+    }
 
     public AddCardApiModel(List<CardModelApiModel> cardId, String deckId) {
         this.cards = cardId;

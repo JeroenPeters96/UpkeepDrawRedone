@@ -82,11 +82,21 @@ public class AccountQueryController {
                     new FindAccountById(id),
                     Account.class).get();
             if(account!=null && account.getId() == id)
-                return new ResponseEntity<>(account.getUsername(),HttpStatus.OK);
+                return new ResponseEntity<>(createMessage(account.getUsername()),HttpStatus.OK);
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
             return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(null,HttpStatus.NO_CONTENT);
     }
+
+
+    private String createMessage(String message) {
+        return "{ \"message\":\""+message+"\"}";
+    }
+
+    private String createMessage(String json,String message) {
+        return "{ \""+json+"\":\""+message+"\"}";
+    }
+
 }

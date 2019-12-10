@@ -11,6 +11,9 @@ public class CardModelApiModel {
         this.count = count;
     }
 
+    public CardModelApiModel() {
+    }
+
     public String getCardId() {
         return cardId;
     }

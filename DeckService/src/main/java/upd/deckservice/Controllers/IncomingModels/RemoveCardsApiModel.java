@@ -7,8 +7,11 @@ import java.util.Map;
 import java.util.Objects;
 
 public class RemoveCardsApiModel {
-    private final String deckId;
-    private final List<CardModelApiModel> cards;
+    private String deckId;
+    private List<CardModelApiModel> cards;
+
+    public RemoveCardsApiModel() {
+    }
 
     public RemoveCardsApiModel(String deckId, List<CardModelApiModel> cards) {
         this.deckId = deckId;
