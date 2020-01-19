@@ -42,9 +42,9 @@ services:
       - mysql
       - mongodbcoll
       - kafka
-#  edhrecservice:
-#
-#  priceservice:
+
+  gateway:
+    build:
 
 
 #Messaging queue to facilitate messages between services
