@@ -96,8 +96,7 @@ public class DeckCommandController {
             savedDeck = queryGateway.query(new FindDeckById(deckId), Deck.class).get();
             if (savedDeck.getId().equals(deckId) &&
                     savedDeck.getAccountId().equals(apiModel.getAccountId()) &&
-                    savedDeck.getDeckname().equals(apiModel.getName()) &&
-                    savedDeck.getCards().equals(apiModel.getCards())) {
+                    savedDeck.getDeckname().equals(apiModel.getName())) {
                 return new ResponseEntity<>("{ \"deckId\":\""+deckId+" \"}", HttpStatus.OK);
             }
         } catch (InterruptedException | ExecutionException e) {

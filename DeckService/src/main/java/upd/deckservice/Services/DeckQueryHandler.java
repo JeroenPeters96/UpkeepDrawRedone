@@ -9,6 +9,7 @@ import upd.deckservice.Queries.FindDeckById;
 import upd.deckservice.Queries.FindDecksByLikeName;
 import upd.deckservice.Repo.DeckCrudRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,15 +28,28 @@ public class DeckQueryHandler {
 
     @QueryHandler
     public List<Deck> handle(DecksFromUser query) {
-        return repository.findDecksByAccountId(query.getAccountId());
+        List<Deck> found = repository.findDecksByAccountId(query.getAccountId());
+        if(found==null) {
+            return new ArrayList<>();
+        }
+        return found;
     }
 
     @QueryHandler
     public Deck handle(FindDeckById query) {
-       return repository.findDeckById(query.getDeckId());
+        Deck found = repository.findDeckById(query.getDeckId());
+        if(found==null) {
+            return null;
+        }
+        return repository.findDeckById(query.getDeckId());
     }
+
     @QueryHandler
     public List<Deck> handle(FindDecksByLikeName query) {
+        List<Deck> found = repository.findDecksByDecknameContaining(query.getDeckName());
+        if(found==null) {
+            return new ArrayList<>();
+        }
         return repository.findDecksByDecknameContaining(query.getDeckName());
     }
 }

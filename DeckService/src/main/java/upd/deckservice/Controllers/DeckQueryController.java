@@ -3,6 +3,7 @@ package upd.deckservice.Controllers;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.SwaggerDefinition;
 import io.swagger.annotations.Tag;
+import org.axonframework.queryhandling.GenericQueryMessage;
 import org.axonframework.queryhandling.QueryGateway;
 import org.axonframework.queryhandling.responsetypes.ResponseTypes;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,7 @@ public class DeckQueryController {
             List found = queryGateway.query(new DecksFromUser(id),ResponseTypes.multipleInstancesOf(Deck.class)).get();
             List<Deck> foundDecks = found;
             System.out.println(foundDecks);
-            if(foundDecks!=null && foundDecks.size() != 0) {
+            if(foundDecks!=null) {
                 return new ResponseEntity<>(foundDecks,HttpStatus.OK);
             }
         } catch (InterruptedException | ExecutionException e) {
@@ -72,7 +73,8 @@ public class DeckQueryController {
         }
         try {
             List<Deck> foundDecks = queryGateway.query(new FindDecksByLikeName(name), ResponseTypes.multipleInstancesOf(Deck.class)).get();
-            if(foundDecks!=null && foundDecks.size() != 0) {
+
+            if(foundDecks!=null) {
                 return new ResponseEntity<>(foundDecks,HttpStatus.OK);
             }
         } catch (InterruptedException | ExecutionException e) {
@@ -86,7 +88,7 @@ public class DeckQueryController {
     public ResponseEntity<List<Deck>> getMetaDecks() {
         try {
             List<Deck> foundDecks = queryGateway.query(new DecksFromUser("6969"),ResponseTypes.multipleInstancesOf(Deck.class)).get();
-            if(foundDecks!=null && foundDecks.size() != 0) {
+            if(foundDecks!=null) {
                 return new ResponseEntity<>(foundDecks,HttpStatus.OK);
             }
         } catch (InterruptedException | ExecutionException e) {

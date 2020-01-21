@@ -16,7 +16,7 @@ services:
       context: AccountService/
       dockerfile: Dockerfile
     ports:
-      - 8080:8080
+      - 8085:8080
     depends_on:
       - mysql
       - mongodbacc
@@ -45,6 +45,11 @@ services:
 
   gateway:
     build:
+      context: DiscoveryService/
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+
 
 
 #Messaging queue to facilitate messages between services
@@ -116,46 +121,46 @@ services:
       - mongocarddata:/data/db
 
 # Systems used in testing
-
-  intergration:
-    build:
-      context: IntergrationTest/
-      dockerfile: Dockerfile
-    depends_on:
-      - testmysql
-      - testkafka
-      - testmongodb
-  testmysql:
-    image: mysql:5.7
-    restart: always
-    environment:
-      MYSQL_DATABASE: db
-      MYSQL_USER: user
-      MYSQL_PASSWORD: pass
-      MYSQL_ROOT_PASSWORD: password
-    ports:
-      - 3312:3306
-    volumes:
-      - mysqltest:/var/lib/mysql
-  testkafka:
-    image: wurstmeister/kafka
-    ports:
-      - 9099:9092
-    environment:
-      KAFKA_ADVERTISED_HOST_NAME: localhost
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
-    depends_on:
-      - zookeeper
-  testmongodb:
-    image: mongo:3.2.4
-    container_name: "testmongodb"
-    ports:
-      - 27020:27017
-    command: --smallfiles
-    volumes:
-      - mdbtest-data:/data/db
-      - mongotest-config:/data/configdb
+#
+#  intergration:
+#    build:
+#      context: IntergrationTest/
+#      dockerfile: Dockerfile
+#    depends_on:
+#      - testmysql
+#      - testkafka
+#      - testmongodb
+#  testmysql:
+#    image: mysql:5.7
+#    restart: always
+#    environment:
+#      MYSQL_DATABASE: db
+#      MYSQL_USER: user
+#      MYSQL_PASSWORD: pass
+#      MYSQL_ROOT_PASSWORD: password
+#    ports:
+#      - 3312:3306
+#    volumes:
+#      - mysqltest:/var/lib/mysql
+#  testkafka:
+#    image: wurstmeister/kafka
+#    ports:
+#      - 9099:9092
+#    environment:
+#      KAFKA_ADVERTISED_HOST_NAME: localhost
+#      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+#      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+#    depends_on:
+#      - zookeeper
+#  testmongodb:
+#    image: mongo:3.2.4
+#    container_name: "testmongodb"
+#    ports:
+#      - 27020:27017
+#    command: --smallfiles
+#    volumes:
+#      - mdbtest-data:/data/db
+#      - mongotest-config:/data/configdb
 volumes:
   mdb-data:
   mongo-config:

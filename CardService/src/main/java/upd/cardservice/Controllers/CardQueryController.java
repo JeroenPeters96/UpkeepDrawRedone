@@ -43,13 +43,11 @@ public class CardQueryController {
         try {
             cards = queryGateway.query(
                     new GetCardsById(cardIds),ResponseTypes.multipleInstancesOf(Card.class)).get();
-            if (cards.size() != 0)
                 return new ResponseEntity<>(cards, HttpStatus.OK);
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/getSignature")
@@ -91,13 +89,12 @@ public class CardQueryController {
         try {
             cards = queryGateway.query(
                     new GetCardsByName(cardNames),ResponseTypes.multipleInstancesOf(Card.class)).get();
-            if (cards.size() != 0)
                 return new ResponseEntity<>(cards, HttpStatus.OK);
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
     }
 
     @GetMapping("/getAutocomplete/{name}")
@@ -109,13 +106,13 @@ public class CardQueryController {
         try {
             cardnames = queryGateway.query(
                     new GetAutocomplete(name), ResponseTypes.multipleInstancesOf(String.class)).get();
-            if(cardnames.size()!=0)
+
             return new ResponseEntity<>(cardnames,HttpStatus.OK);
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
     }
 
     @GetMapping("/getLikeName/{name}")
@@ -127,13 +124,13 @@ public class CardQueryController {
         try {
             cards = queryGateway.query(
                     new GetCardsLikeName(name), ResponseTypes.multipleInstancesOf(Card.class)).get();
-            if(cards.size()!=0)
+
                 return new ResponseEntity<>(cards,HttpStatus.OK);
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
     }
 
 
